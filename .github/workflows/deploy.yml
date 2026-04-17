@@ -11,15 +11,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+
       - name: Use Rust toolchain
         uses: dtolnay/rust-toolchain@stable
 
-      - id: toolchain
-        name: Run actions-rust-lang/setup-rust-toolchain ${{matrix.rust || 'on toolchain file'}}
-        uses: ./
-        with:
-          toolchain: ${{matrix.rust}}
-          components: clippy
+      - name: Write rust-toolchain.toml
+        run: |-
+          cat <<EOF >>rust-toolchain.toml
+          [toolchain]
+          targets = [ "wasm32-unknown-unknown" ]
+          EOF
 
       - id: rustc-version-cargo-version
         name: Check version of compiler and buildtool
@@ -39,7 +40,6 @@ jobs:
           [[ -f target/site/pkg/blog.wasm && ! -f target/site/pkg/blog_bg.wasm ]] \
             && mv target/site/pkg/blog.wasm target/site/pkg/blog_bg.wasm \
             || exit 1
-        shell: sh
 
       - id: make-distribution-directory
         name: Create distribution directory
