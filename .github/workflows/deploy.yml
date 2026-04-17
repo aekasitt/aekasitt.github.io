@@ -17,6 +17,10 @@ jobs:
         with:
           targets: wasm32-unknown-unknown
 
+      - id: make-cargo-local-bin-directory
+        name: Make directory to store cargo binaries
+        run: mkdir -p /usr/local/cargo/bin
+
       - id: cargo-install-cargo-leptos
         name: Install Cargo-leptos
         run: |-
