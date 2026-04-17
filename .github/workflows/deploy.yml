@@ -14,21 +14,14 @@ jobs:
 
       - name: Use Rust toolchain
         uses: dtolnay/rust-toolchain@stable
-
-      - name: Write rust-toolchain.toml
-        run: |-
-          cat <<EOF >>rust-toolchain.toml
-          [toolchain]
-          targets = [ "wasm32-unknown-unknown" ]
-          EOF
-
-      - id: rustc-version-cargo-version
-        name: Check version of compiler and buildtool
-        run: rustc --version && cargo --version
+        with:
+          targets: wasm32-unknown-unknown
 
       - id: cargo-install-cargo-leptos
         name: Install Cargo-leptos
-        run: cargo install cargo-leptos
+        run: |-
+          curl -L https://github.com/leptos-rs/cargo-leptos/releases/download/v0.3.6/cargo-leptos-x86_64-unknown-linux-gnu.tar.gz \
+            | tar xz --strip-components=1 -C /usr/local/cargo/bin &
 
       - id: cargo-leptos-build-release
         name: Build Leptos WebAssembly
