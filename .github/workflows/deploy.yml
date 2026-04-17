@@ -1,4 +1,9 @@
 name: Deploy to GitHub Pages
+
+env:
+  CARGO_HOME: ${{ github.workspace }}/.cargo
+  CARGO_TARGET_DIR: ${{ github.workspace }}/target
+
 on:
   push:
     branches:
@@ -17,15 +22,15 @@ jobs:
         with:
           targets: wasm32-unknown-unknown
 
-      - id: make-cargo-local-bin-directory
-        name: Make directory to store cargo binaries
-        run: mkdir -p /usr/local/cargo/bin
+      - id: make-dot-cargo--directory
+        name: Make .cargo directory to store cargo binaries
+        run: mkdir -p ./.cargo/bin
 
       - id: cargo-install-cargo-leptos
         name: Install Cargo-leptos
         run: |-
           curl -L https://github.com/leptos-rs/cargo-leptos/releases/download/v0.3.6/cargo-leptos-x86_64-unknown-linux-gnu.tar.gz \
-            | tar xz --strip-components=1 -C /usr/local/cargo/bin &
+            | tar xz --strip-components=1 -C ./.cargo/bin &
 
       - id: cargo-leptos-build-release
         name: Build Leptos WebAssembly
