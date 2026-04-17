@@ -1,0 +1,19 @@
+### envvar ###
+.direnv
+.env
+.envrc
+
+
+### macos ###
+.DS_Store
+
+
+### rust ###
+target
+
+
+### workspace ###
+.cursor
+.idea
+.ignore
+.vscode

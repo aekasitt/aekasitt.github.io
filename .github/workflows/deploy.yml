@@ -1,0 +1,103 @@
+name: Deploy to GitHub Pages
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.7
+
+      - id: toolchain
+        name: Run actions-rust-lang/setup-rust-toolchain ${{matrix.rust || 'on toolchain file'}}
+        uses: ./
+        with:
+          toolchain: ${{matrix.rust}}
+          components: clippy
+
+      - id: rustc-version-cargo-version
+        name: Check version of compiler and buildtool
+        run: rustc --version && cargo --version
+
+      - id: cargo-install-cargo-leptos
+        name: Install Cargo-leptos
+        run: cargo install cargo-leptos
+
+      - id: cargo-leptos-build-release
+        name: Build Leptos WebAssembly
+        run: cargo leptos build --release
+      
+      - id: wasm-bindgen-workaround
+        name: Rename 'blog.wasm' to 'blog_bg.wasm'
+        run: |-
+          [[ -f target/site/pkg/blog.wasm && ! -f target/site/pkg/blog_bg.wasm ]] \
+            && mv target/site/pkg/blog.wasm target/site/pkg/blog_bg.wasm \
+            || exit 1
+        shell: sh
+
+      - id: make-distribution-directory
+        name: Create distribution directory
+        run: mkdir dist
+
+      - id: hypertextmedia
+        name: Write HTML template
+        run: |-
+          cat <<EOF >>dist/index.html
+          <!DOCTYPE html>
+          <html lang='en'>
+            <head>
+              <link rel='icon' href='/assets/favicon.ico' />
+              <meta charset='UTF-8' />
+              <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+              <script type='module'>
+                import init, { hydrate } from '/pkg/blog.js'
+                await init()
+                hydrate()
+              </script>
+            </head>
+            <body></body>
+          </html>
+          EOF
+
+      - id: move-assets
+        name: Move assets directory into distribution directory
+        run: mv assets dist/assets
+
+      - id: move-generated
+        name: Move generated pkg directory into distribution directory
+        run: mv target/site/pkg dist/pkg
+
+      - name: Upload production-ready build files
+        uses: actions/upload-pages-artifact@v3
+        with:
+          name: github-pages
+          path: ./dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+
+    permissions:
+      pages: write
+      contents: write
+      id-token: write
+      actions: read
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: github-pages
+          path: ./dist
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

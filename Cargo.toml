@@ -1,0 +1,47 @@
+[dependencies]
+console_error_panic_hook = '0.1.7'
+include_dir = '0.7'
+leptos = { version = '0.8.19', default-features = false }
+leptos_meta = { version = '0.8.5', default-features = false }
+leptos_router = { version = '0.8.11', default-features = false }
+wasm-bindgen = '0.2.108'
+
+
+[dev-dependencies]
+console_log = '1.0'
+log = '0.4.22'
+
+
+[features]
+default = ['csr']
+csr = ['leptos/csr']
+
+
+[lib]
+crate-type = ['cdylib', 'rlib']
+
+
+[package]
+edition = '2024'
+name = 'aekasitt-github-io'
+version = '0.1.0'
+
+
+[profile.dev]
+debug = 'line-tables-only'
+
+
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = 'z'
+panic = 'abort'
+
+
+[package.metadata.leptos]
+assets-dir = 'assets'
+lib-features = ['csr']
+output-name = 'blog'
+site-pkg-dir = 'pkg'
+site-root = 'target/site'
+style-file = 'style/main.scss'
