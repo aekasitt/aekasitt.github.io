@@ -4,6 +4,7 @@
 use leptos::prelude::*;
 
 // local modules
+use crate::components::hooks::use_random::use_random_id;
 use crate::components::ui::navigation_menu::{
   NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink,
   NavigationMenuList, NavigationMenuTrigger, navigation_menu_trigger_style,
@@ -30,8 +31,9 @@ fn ListItem(
 
 #[component]
 pub fn NavBar() -> impl IntoView {
+  let id = use_random_id();
   view! {
-    <div class="flex justify-center items-start py-8 min-h-[350px]">
+    <div class="flex justify-center items-start py-8 min-h-[350px]" id=id>
       <NavigationMenu>
         <NavigationMenuList>
           <NavigationMenuItem>
