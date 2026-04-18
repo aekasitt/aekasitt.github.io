@@ -40,4 +40,34 @@ check:
 # Serve
 serve:
   #!/usr/bin/env sh
-  yarn exec serve
+  yarn serve
+
+# Watch
+watch:
+  #!/usr/bin/env sh
+  [[ ! -e dist ]] && mkdir dist
+  stty -echoctl # hide ^C
+  stty intr ^C
+  cleanup() {
+    echo 'Cleaning up processes...'
+    echo $LEPTOS_WATCH
+    [[ -z $LEPTOS_WATCH ]] && pkill -P $LEPTOS_WATCH
+    [[ $? -eq 0 ]] && echo "Terminated cargo-leptos watch process."
+    echo $YARN_SERVE
+    [[ -z $YARN_SERVE ]] && pkill -P $YARN_SERVE
+    [[ $? -eq 0 ]] && echo "Terminated yarn serve process." \
+    echo $YARN_WATCH
+    [[ -z $YARN_WATCH ]] && pkill -P $YARN_WATCH
+    [[ $? -eq 0 ]] && echo "Terminated yarn watch process."
+    stty sane
+    exit 0
+  }
+  trap 'cleanup' SIGINT
+  yarn watch >/dev/null 2>&1 &
+  YARN_WATCH=$!
+  cargo leptos watch >/dev/null 2>&1 &
+  LEPTOS_WATCH=$!
+  yarn serve >/dev/null 2>&1 &
+  YARN_SERVE=$!
+  echo "Running processes: [$YARN_WATCH, $LEPTOS_WATCH, $YARN_SERVE]"
+  wait

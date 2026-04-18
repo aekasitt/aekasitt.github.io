@@ -10,9 +10,10 @@ use leptos_router::{
 };
 
 // local modules
-pub mod files;
-pub mod models;
-pub mod pages;
+mod components;
+mod files;
+mod models;
+mod pages;
 
 #[cfg(feature = "csr")]
 #[wasm_bindgen::prelude::wasm_bindgen]

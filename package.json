@@ -1,0 +1,15 @@
+{
+  "dependencies": {},
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.2.2",
+    "serve": "^14.2.6",
+    "tailwindcss": "^4.2.2"
+  },
+  "name": "aekasitt-github-io",
+  "packageManager": "yarn@6.0.0-rc.16",
+  "scripts": {
+    "build": "tailwindcss -i style/tailwind.css --minify -o dist/styles.css",
+    "serve": "serve",
+    "watch": "tailwindcss -i style/tailwind.css --minify -o dist/styles.css --watch"
+  }
+}
