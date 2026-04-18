@@ -44,4 +44,3 @@ lib-features = ['csr']
 output-name = 'blog'
 site-pkg-dir = 'pkg'
 site-root = 'target/site'
-style-file = 'style/main.scss'
