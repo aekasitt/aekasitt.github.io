@@ -40,7 +40,7 @@ jobs:
         name: Create distribution directory
         run: mkdir dist
 
-      - id: hypertextmedia
+      - id: hypertext-markup-template
         name: Write HTML template
         run: |-
           cat <<EOF >>dist/index.html
