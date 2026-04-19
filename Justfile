@@ -4,9 +4,7 @@
 build:
   #!/usr/bin/env sh
   cargo leptos build
-  [[ -f target/site/pkg/blog.wasm && ! -f target/site/pkg/blog_bg.wasm ]] \
-    && mv target/site/pkg/blog.wasm target/site/pkg/blog_bg.wasm \
-    || echo "✅ blog_bg.wasm was already built by cargo-leptos"
+  yarn build
 
 # Check project prerequisites
 check:
