@@ -36,13 +36,6 @@ jobs:
         name: Build Leptos WebAssembly
         run: cargo leptos build --release
       
-      - id: wasm-bindgen-workaround
-        name: Rename 'blog.wasm' to 'blog_bg.wasm'
-        run: |-
-          [[ -f target/site/pkg/blog.wasm && ! -f target/site/pkg/blog_bg.wasm ]] \
-            && mv target/site/pkg/blog.wasm target/site/pkg/blog_bg.wasm \
-            || exit 1
-
       - id: make-distribution-directory
         name: Create distribution directory
         run: mkdir dist
@@ -59,7 +52,7 @@ jobs:
               <meta name='viewport' content='width=device-width, initial-scale=1.0' />
               <script type='module'>
                 import init, { hydrate } from '/pkg/blog.js'
-                await init()
+                await init('/pkg/blog.wasm')
                 hydrate()
               </script>
             </head>
