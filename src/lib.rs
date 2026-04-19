@@ -4,10 +4,9 @@
 use leptos::prelude::*;
 use leptos_meta::Title;
 use leptos_meta::*;
-use leptos_router::{
-  SsrMode, components::A, components::FlatRoutes, components::Redirect, components::Route,
-  components::Router, path,
-};
+use leptos_router::SsrMode;
+use leptos_router::components::{FlatRoutes, Redirect, Route, Router};
+use leptos_router::path;
 
 // local modules
 mod components;
@@ -31,9 +30,6 @@ pub fn App() -> impl IntoView {
     <Title text="Sitt's personal blog"/>
     <Meta name="color-scheme" content="dark light"/>
     <Router>
-      <nav>
-        <A href="/">"Home"</A>
-      </nav>
       <main>
         <FlatRoutes fallback>
           <Route path=path!("/") view=pages::Home/>
