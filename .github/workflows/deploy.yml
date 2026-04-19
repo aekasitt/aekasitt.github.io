@@ -22,7 +22,7 @@ jobs:
       - id: remove-package-manager-from-package-json
         name: Remove packageManager attribute from package.json
         run: |-
-          sed -i 's/\s"packageManager":\s".*",\n//g' package.json
+          sed -i 's/[ \t]*"packageManager":[ \t]*".*",//g' package.json
 
       - id: use-node-toolchain
         name: Use Node toolchain
