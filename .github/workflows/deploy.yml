@@ -85,10 +85,11 @@ jobs:
         run: yarn build
 
       - id: copy-assets
-        name: Copy static files (favicon and et cetera)
+        name: Copy static files (favicon and stylesheet)
         run: |-
           mkdir -p dist/assets
           cp assets/favicon.ico dist/assets/
+          cp assets/styles.css dist/assets/
 
       - id: copy-blog-posts
         name: Copy markdown files processed by build hook
