@@ -7,7 +7,7 @@
     <meta name='viewport' content='width=device-width, initial-scale=1.0' />
     <script type='module'>
       import init, { hydrate } from '/target/site/pkg/blog.js'
-      await init()
+      await init('/target/site/pkg/blog.wasm')
       hydrate()
     </script>
     <title> Development template </title>
