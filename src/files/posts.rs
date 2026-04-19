@@ -1,39 +1,59 @@
 /* ~~/src/files/posts.rs */
 
 // third-party crates
-use include_dir::{Dir, include_dir};
-use leptos_router::static_routes::{StaticParamsMap, StaticRoute};
+use gloo_net::http::Request;
+use serde::Deserialize;
 
 // local modules
 use crate::models::Post;
 
-static POSTS_DIR: Dir<'_> = include_dir!("$CARGO_MANIFEST_DIR/posts");
+/// Same path layout as `cargo-leptos` output under `site-root` (`target/site/posts/`).
+pub const POSTS_MANIFEST_URL: &str = "/posts/manifest.json";
 
-pub fn get_post(slug: &str) -> Option<Post> {
-  list_posts().into_iter().find(|post| post.slug == slug)
+#[derive(Clone, Debug, Deserialize)]
+pub struct PostSummary {
+  pub slug: String,
+  pub title: String,
 }
 
-pub fn list_posts() -> Vec<Post> {
-  let mut posts: Vec<Post> = POSTS_DIR
-    .files()
-    .filter_map(|file| {
-      let path = file.path();
-      if path.extension().and_then(|ext| ext.to_str()) != Some("md") {
-        return None;
-      }
-      let slug = path.file_stem()?.to_str()?.to_string();
-      let markdown = file.contents_utf8()?;
-      let (title, content) = parse_markdown_post(markdown);
-      Some(Post {
-        slug,
-        title,
-        content,
-      })
-    })
-    .collect();
+pub fn post_markdown_url(slug: &str) -> String {
+  format!("/posts/{slug}.md")
+}
 
-  posts.sort_by(|a, b| a.slug.cmp(&b.slug));
-  posts
+pub async fn fetch_post_summaries() -> Result<Vec<PostSummary>, String> {
+  let response = Request::get(POSTS_MANIFEST_URL)
+    .send()
+    .await
+    .map_err(|e| e.to_string())?;
+  if !response.ok() {
+    return Err(format!(
+      "manifest request failed with HTTP {}",
+      response.status()
+    ));
+  }
+  let text = response.text().await.map_err(|e| e.to_string())?;
+  serde_json::from_str(&text).map_err(|e| e.to_string())
+}
+
+pub async fn fetch_post(slug: &str) -> Result<Option<Post>, String> {
+  let url = post_markdown_url(slug);
+  let response = Request::get(&url).send().await.map_err(|e| e.to_string())?;
+  if response.status() == 404 {
+    return Ok(None);
+  }
+  if !response.ok() {
+    return Err(format!(
+      "post request failed with HTTP {}",
+      response.status()
+    ));
+  }
+  let markdown = response.text().await.map_err(|e| e.to_string())?;
+  let (title, content) = parse_markdown_post(&markdown);
+  Ok(Some(Post {
+    slug: slug.to_string(),
+    title,
+    content,
+  }))
 }
 
 pub fn parse_markdown_post(markdown: &str) -> (String, String) {
@@ -45,15 +65,4 @@ pub fn parse_markdown_post(markdown: &str) -> (String, String) {
     .unwrap_or_else(|| "Untitled post".to_string());
   let content = lines.collect::<Vec<_>>().join("\n").trim().to_string();
   (title, content)
-}
-
-pub fn post_static_route() -> StaticRoute {
-  StaticRoute::new().prerender_params(|| async {
-    let mut params = StaticParamsMap::new();
-    params.insert(
-      "slug",
-      list_posts().into_iter().map(|post| post.slug).collect(),
-    );
-    params
-  })
 }

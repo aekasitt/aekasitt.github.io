@@ -60,12 +60,20 @@ jobs:
           </html>
           EOF
 
-      - id: move-assets
-        name: Move assets directory into distribution directory
-        run: mv assets dist/assets
+      - id: copy-assets
+        name: Copy static files (favicon and et cetera)
+        run: |-
+          mkdir -p dist/assets
+          cp assets/favicon.ico dist/assets/
+
+      - id: copy-blog-posts
+        name: Copy markdown files processed by build hook
+        run: |-
+          mkdir -p dist/posts
+          cp -R assets/posts/. dist/posts/
 
       - id: move-generated
-        name: Move generated pkg directory into distribution directory
+        name: Move generated pkg directory into distribution
         run: mv target/site/pkg dist/pkg
 
       - name: Upload production-ready build files

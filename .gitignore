@@ -2,6 +2,10 @@
 /dist
 
 
+### generated ###
+/assets/posts/
+
+
 ### envvar ###
 .direnv
 .env

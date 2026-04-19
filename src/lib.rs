@@ -4,7 +4,6 @@
 use leptos::prelude::*;
 use leptos_meta::Title;
 use leptos_meta::*;
-use leptos_router::SsrMode;
 use leptos_router::components::{FlatRoutes, Redirect, Route, Router};
 use leptos_router::path;
 
@@ -34,7 +33,7 @@ pub fn App() -> impl IntoView {
         <FlatRoutes fallback>
           <Route path=path!("/") view=pages::Home/>
           <Route path=path!("/about") view=move || view! { <Redirect path="/"/> }/>
-          <Route path=path!("/post/:slug/") view=pages::Post ssr=SsrMode::Static(files::post_static_route())/>
+          <Route path=path!("/post/:slug/") view=pages::Post/>
         </FlatRoutes>
       </main>
     </Router>

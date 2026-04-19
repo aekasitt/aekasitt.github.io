@@ -298,4 +298,3 @@ pub fn NavigationMenuLink(
     </a>
   }
 }
-
