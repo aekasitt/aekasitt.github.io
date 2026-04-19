@@ -19,7 +19,7 @@ jobs:
         name: Checkout
         uses: actions/checkout@v6
 
-      - id: remove-package-manager-from-package-json:
+      - id: remove-package-manager-from-package-json
         name: Remove packageManager attribute from package.json
         run: |-
           sed -i 's/\s"packageManager":\s".*",\n//g' package.json
