@@ -15,16 +15,24 @@ jobs:
     if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - id: checkout
+        name: Checkout
         uses: actions/checkout@v6
 
-      - name: Use Node toolchain
+      - id: remove-package-manager-from-package-json:
+        name: Remove packageManager attribute from package.json
+        run: |-
+          sed -i 's/\s"packageManager":=\s".*",\n//g' package.json
+
+      - id: use-node-toolchain
+        name: Use Node toolchain
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'yarn'
 
-      - name: Use Rust toolchain
+      - id: use-rust-toolchain
+        name: Use Rust toolchain
         uses: dtolnay/rust-toolchain@stable
         with:
           targets: wasm32-unknown-unknown
