@@ -66,9 +66,9 @@ watch:
   YARN_WATCH=$!
   yarn serve >/dev/null 2>&1 &
   YARN_SERVE=$!
-  echo "Running processes: {
-    'yarn-watch': $YARN_WATCH,
-    'cargo-leptos-watch': $LEPTOS_WATCH,
-    'yarn-serve': $YARN_SERVE
-  }"
+  echo "{
+    \"cargo-leptos-watch\": $LEPTOS_WATCH, 
+    \"yarn-watch\": $YARN_WATCH, 
+    \"yarn-serve\": $YARN_SERVE
+  }" | jq 'with_entries(.key |= . + "-pid")'
   wait
