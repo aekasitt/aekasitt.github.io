@@ -85,7 +85,7 @@ jobs:
         run: yarn build
 
       - id: copy-assets
-        name: Copy static files (favicon, manifest and stylesheet)
+        name: Copy static files (favicon and generated manifest)
         run: |-
           mkdir -p dist/assets
           cp assets/favicon.ico dist/assets/
