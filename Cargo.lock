@@ -16,8 +16,10 @@ dependencies = [
  "log",
  "serde",
  "serde_json",
+ "strum",
  "tw_merge",
  "wasm-bindgen",
+ "web-sys",
 ]
 
 [[package]]

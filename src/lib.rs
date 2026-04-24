@@ -25,7 +25,6 @@ pub fn App() -> impl IntoView {
   provide_meta_context();
   let fallback = || view! { <p>"Page not found."</p> }.into_view();
   view! {
-    <Stylesheet id="leptos" href="/pkg/site.css"/>
     <Title text="Sitt's personal blog"/>
     <Meta name="color-scheme" content="dark light"/>
     <Router>
