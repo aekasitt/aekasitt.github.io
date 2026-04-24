@@ -8,7 +8,7 @@ use serde::Deserialize;
 use crate::models::Post;
 
 /// Same path layout as `cargo-leptos` output under `site-root` (`target/site/posts/`).
-pub const POSTS_MANIFEST_URL: &str = "/posts/manifest.json";
+pub const POSTS_MANIFEST_URL: &str = "/assets/manifest.json";
 
 #[derive(Clone, Debug, Deserialize)]
 pub struct PostSummary {
