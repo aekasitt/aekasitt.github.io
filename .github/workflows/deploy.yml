@@ -90,7 +90,6 @@ jobs:
           mkdir -p dist/assets
           cp assets/favicon.ico dist/assets/
           cp assets/manifest.json dist/assets/
-          cp assets/styles.css dist/assets/
 
       - id: copy-blog-posts
         name: Copy markdown files processed by build hook
