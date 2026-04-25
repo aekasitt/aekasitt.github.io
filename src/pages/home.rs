@@ -10,7 +10,6 @@ use leptos_router::components::A;
 use crate::components::hooks::use_horizontal_scroll::{
   HorizontalScrollState, use_horizontal_scroll,
 };
-use crate::components::nav_bar::NavBar;
 use crate::files::posts::fetch_post_summaries;
 
 #[component]
@@ -18,9 +17,7 @@ pub fn Home() -> impl IntoView {
   let scroll_container_ref = NodeRef::<Div>::new();
   let scroll_ctx = use_horizontal_scroll(scroll_container_ref, None, None);
   let summaries = LocalResource::new(|| async move { fetch_post_summaries().await });
-
   view! {
-    <NavBar />
     <Suspense fallback=|| view! { <p>"Loading posts…"</p> }>
       {move || match summaries.get() {
         None => view! { <p>"Loading posts…"</p> }.into_any(),
@@ -45,7 +42,7 @@ pub fn Home() -> impl IntoView {
                   font-semibold
                   text-lg
                 ">
-                Horizontal Scroll Demo
+                Latest
               </h3>
               <div class="flex gap-2">
                 <button
@@ -104,13 +101,13 @@ pub fn Home() -> impl IntoView {
                     class="
                       bg-gray-300
                       flex
-                      h-40
+                      h-64
                       items-center
                       justify-center
                       rounded-lg
                       shrink-0
                       snap-start
-                      w-64
+                      w-96
                     ">
                     <span
                       class="
@@ -123,17 +120,6 @@ pub fn Home() -> impl IntoView {
                   </div>
                 </A>
               </For>
-            </div>
-            <div
-              class="
-                mt-4
-                text-sm
-                text-muted-foreground
-              ">
-              Scroll state:
-              <span class="font-semibold">
-                {move || scroll_ctx.scroll_state.get().to_string()}
-              </span>
             </div>
           </div>
         }.into_any(),

@@ -28,7 +28,6 @@ pub fn Post() -> impl IntoView {
   });
 
   view! {
-    <em>"The world's best content."</em>
     <Suspense fallback=|| view! { <p>"Loading post…"</p> }>
       {move || match post_res.get() {
         None => view! { <p>"Loading post…"</p> }.into_any(),

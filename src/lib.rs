@@ -8,6 +8,8 @@ use leptos_router::components::{FlatRoutes, Redirect, Route, Router};
 use leptos_router::path;
 
 // local modules
+use crate::components::nav_bar::NavBar;
+
 mod components;
 mod files;
 mod models;
@@ -27,6 +29,7 @@ pub fn App() -> impl IntoView {
   view! {
     <Title text="Sitt's personal blog"/>
     <Meta name="color-scheme" content="dark light"/>
+    <NavBar />
     <Router>
       <main>
         <FlatRoutes fallback>
