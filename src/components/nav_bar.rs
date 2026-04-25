@@ -20,10 +20,38 @@ fn ListItem(
     <li>
       <a
         href=href
-        class="block p-3 space-y-1 leading-none no-underline rounded-md transition-colors outline-none select-none hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-      >
-        <div class="text-sm font-medium leading-none">{title}</div>
-        <p class="text-sm leading-snug line-clamp-2 text-muted-foreground">{children()}</p>
+        class="
+          block
+          focus:bg-accent
+          focus:text-accent-foreground
+          hover:bg-accent
+          hover:text-accent-foreground
+          leading-none
+          no-underline
+          p-3
+          rounded-md
+          select-none
+          space-y-1
+          transition-colors
+          outline-none
+        ">
+        <div
+          class="
+            text-sm
+            font-medium
+            leading-none
+          ">
+          {title}
+        </div>
+        <p
+          class="
+            text-sm
+            leading-snug
+            line-clamp-2
+            text-muted-foreground
+          ">
+          {children()}
+        </p>
       </a>
     </li>
   }
@@ -33,21 +61,67 @@ fn ListItem(
 pub fn NavBar() -> impl IntoView {
   let id = use_random_id();
   view! {
-    <div class="flex justify-center items-start py-8 min-h-[350px]" id=id>
+    <div
+      class="
+        flex
+        justify-center
+        items-start
+        py-8
+        min-h-[350px]
+      "
+      id=id>
       <img alt="Krutt" class="h-10 w-10" src="assets/krutt.svg"/>
       <NavigationMenu>
         <NavigationMenuList>
           <NavigationMenuItem>
             <NavigationMenuTrigger>"Getting Started"</NavigationMenuTrigger>
             <NavigationMenuContent>
-              <ul class="grid gap-3 p-0 md:grid-cols-2 w-[400px] md:w-[500px] lg:w-[600px]">
+              <ul
+                class="
+                  grid
+                  gap-3
+                  lg:w-[600px]
+                  md:grid-cols-2
+                  md:w-[500px]
+                  p-0
+                  w-[400px]
+                ">
                 <li class="row-span-3">
                   <a
+                    class="
+                      bg-gradient-to-b
+                      flex
+                      flex-col
+                      focus:shadow-md
+                      from-muted/50
+                      h-full
+                      hover:bg-accent
+                      justify-end
+                      no-underline
+                      outline-none
+                      p-6
+                      w-full
+                      rounded-md
+                      select-none
+                      to-muted
+                    "
                     href="#"
-                    class="flex flex-col justify-end p-6 w-full h-full no-underline bg-gradient-to-b rounded-md outline-none select-none focus:shadow-md from-muted/50 to-muted hover:bg-accent"
                   >
-                    <div class="mt-4 mb-2 text-lg font-medium">"rust/ui"</div>
-                    <p class="text-sm leading-tight text-muted-foreground">
+                    <div
+                      class="
+                        mt-4
+                        mb-2
+                        text-lg
+                        font-medium
+                      ">
+                      "rust/ui"
+                    </div>
+                    <p
+                      class="
+                        leading-tight
+                        text-muted-foreground
+                        text-sm
+                      ">
                       "Beautifully designed components built with Leptos and Tailwind CSS."
                     </p>
                   </a>
@@ -67,7 +141,16 @@ pub fn NavBar() -> impl IntoView {
           <NavigationMenuItem>
             <NavigationMenuTrigger>"Components"</NavigationMenuTrigger>
             <NavigationMenuContent>
-              <ul class="grid gap-3 p-0 md:grid-cols-2 w-[400px] md:w-[500px] lg:w-[600px]">
+              <ul
+                class="
+                  grid
+                  gap-3
+                  lg:w-[600px]
+                  md:grid-cols-2
+                  md:w-[500px]
+                  p-0
+                  w-[400px]
+                ">
                 <ListItem href="#" title="Alert">
                   "Displays a callout for user attention."
                 </ListItem>
