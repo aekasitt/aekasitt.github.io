@@ -1,16 +1,38 @@
+/* ~~/src/components/ui/navigation_menu.rs */
+
+// third-party crates
 use icons::ChevronDown;
 use leptos::context::Provider;
 use leptos::prelude::*;
 use tw_merge::*;
 
+// local modules
 use crate::components::hooks::use_random::use_random_id_for;
 
-/* ========================================================== */
-/*          TRIGGER STYLE HELPER           */
-/* ========================================================== */
-
 pub fn navigation_menu_trigger_style() -> &'static str {
-  "group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[state=open]:bg-accent/50"
+  "
+    bg-background
+    data-[state=open]:bg-accent/50
+    disabled:opacity-50
+    disabled:pointer-events-none
+    focus:bg-accent
+    focus:outline-none
+    focus:text-accent-foreground
+    font-medium
+    group
+    h-9
+    hover:bg-accent
+    hover:text-accent-foreground
+    inline-flex
+    items-center
+    justify-center
+    px-4
+    py-2
+    rounded-md
+    text-sm
+    transition-colors
+    w-max
+  "
 }
 
 /* ========================================================== */
@@ -180,17 +202,21 @@ pub fn NavigationMenu(children: Children, #[prop(optional, into)] class: String)
   }
 }
 
-/* ========================================================== */
-/*          NAVIGATION MENU LIST           */
-/* ========================================================== */
-
 #[component]
 pub fn NavigationMenuList(
   children: Children,
   #[prop(optional, into)] class: String,
 ) -> impl IntoView {
   let class = tw_merge!(
-    "group flex flex-1 list-none items-center justify-center gap-1",
+    "
+      flex
+      flex-1
+      gap-1
+      group
+      items-center
+      justify-center
+      list-none
+    ",
     class
   );
 
@@ -200,10 +226,6 @@ pub fn NavigationMenuList(
     </ul>
   }
 }
-
-/* ========================================================== */
-/*          NAVIGATION MENU ITEM           */
-/* ========================================================== */
 
 /// NOTE: intentionally has NO `position: relative` so that NavigationMenuContent
 /// (with `position: absolute`) escapes to the <nav> root, making all panels
@@ -220,10 +242,6 @@ pub fn NavigationMenuItem(children: Children) -> impl IntoView {
   }
 }
 
-/* ========================================================== */
-/*           NAVIGATION MENU TRIGGER           */
-/* ========================================================== */
-
 #[component]
 pub fn NavigationMenuTrigger(
   children: Children,
@@ -233,7 +251,31 @@ pub fn NavigationMenuTrigger(
   let menu_ctx = expect_context::<NavigationMenuContext>();
 
   let class = tw_merge!(
-    "group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[state=open]:bg-accent/50 cursor-default select-none",
+    "
+      bg-background
+      cursor-default
+      data-[state=open]:bg-accent/50
+      disabled:opacity-50
+      disabled:pointer-events-none
+      focus:bg-accent
+      focus:outline-none
+      focus:text-accent-foreground
+      font-medium
+      group
+      h-9
+      hover:bg-accent
+      hover:text-accent-foreground
+      inline-flex
+      items-center
+      justify-center
+      px-4
+      py-2
+      rounded-md
+      select-none
+      text-sm
+      transition-colors
+      w-max
+    ",
     class
   );
 
@@ -247,14 +289,19 @@ pub fn NavigationMenuTrigger(
       data-state="closed"
     >
       {children()}
-      <ChevronDown class="relative ml-1 transition duration-300 top-[1px] size-3 group-data-[state=open]:rotate-180" />
+      <ChevronDown
+        class="
+          duration-300
+          group-data-[state=open]:rotate-180
+          ml-1
+          relative
+          size-3
+          top-[1px]
+          transition
+        "/>
     </button>
   }
 }
-
-/* ========================================================== */
-/*          NAVIGATION MENU CONTENT          */
-/* ========================================================== */
 
 /// Absolutely positioned relative to NavigationMenu (not NavigationMenuItem),
 /// so all content panels share the same anchor point below the menu bar.
@@ -266,7 +313,21 @@ pub fn NavigationMenuContent(
   let ctx = expect_context::<NavigationMenuItemContext>();
 
   let class = tw_merge!(
-    "absolute left-0 top-full mt-1.5 z-50 w-full rounded-md border bg-popover p-4 shadow-md data-[state=closed]:hidden md:w-auto",
+    "
+      absolute
+      bg-popover
+      border
+      data-[state=closed]:hidden
+      left-0
+      md:w-auto
+      mt-1.5
+      p-4
+      rounded-md
+      shadow-md
+      top-full
+      w-full
+      z-50
+    ",
     class
   );
 
@@ -277,10 +338,6 @@ pub fn NavigationMenuContent(
   }
 }
 
-/* ========================================================== */
-/*          NAVIGATION MENU LINK           */
-/* ========================================================== */
-
 #[component]
 pub fn NavigationMenuLink(
   children: Children,
@@ -288,7 +345,17 @@ pub fn NavigationMenuLink(
   #[prop(optional, into)] href: String,
 ) -> impl IntoView {
   let class = tw_merge!(
-    "inline-flex items-center rounded-sm text-sm font-medium transition-colors hover:text-foreground text-foreground/70 focus:outline-none",
+    "
+      focus:outline-none
+      font-medium
+      hover:text-foreground
+      inline-flex
+      items-center
+      rounded-sm
+      text-sm
+      text-foreground/70
+      transition-colors
+    ",
     class
   );
 

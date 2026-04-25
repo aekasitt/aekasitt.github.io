@@ -25,7 +25,14 @@ pub fn Home() -> impl IntoView {
       {move || match summaries.get() {
         None => view! { <p>"Loading posts…"</p> }.into_any(),
         Some(Ok(posts)) => view! {
-          <div class="w-full">
+          <div
+            class="
+              isolate
+              lg:px-16
+              pt-14
+              px-8
+              relative
+            ">
             <div
               class="
                 flex
@@ -105,7 +112,12 @@ pub fn Home() -> impl IntoView {
                       snap-start
                       w-64
                     ">
-                    <span class="text-2xl font-bold text-gray-600">
+                    <span
+                      class="
+                        font-bold
+                        text-2xl
+                        text-gray-600
+                      ">
                       {post.title.clone()}
                     </span>
                   </div>
