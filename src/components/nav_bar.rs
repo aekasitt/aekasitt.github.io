@@ -34,6 +34,7 @@ pub fn NavBar() -> impl IntoView {
   let id = use_random_id();
   view! {
     <div class="flex justify-center items-start py-8 min-h-[350px]" id=id>
+      <img alt="Krutt" class="h-10 w-10" src="assets/krutt.svg"/>
       <NavigationMenu>
         <NavigationMenuList>
           <NavigationMenuItem>

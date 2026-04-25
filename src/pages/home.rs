@@ -21,7 +21,6 @@ pub fn Home() -> impl IntoView {
 
   view! {
     <NavBar />
-    <h1>"My Great Blog"</h1>
     <Suspense fallback=|| view! { <p>"Loading posts…"</p> }>
       {move || match summaries.get() {
         None => view! { <p>"Loading posts…"</p> }.into_any(),
