@@ -5,6 +5,7 @@ use leptos::prelude::*;
 
 // local modules
 use crate::components::hooks::use_random::use_random_id;
+use crate::components::search_box::SearchBox;
 use crate::components::ui::navigation_menu::{
   NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink,
   NavigationMenuList, NavigationMenuTrigger, navigation_menu_trigger_style,
@@ -173,9 +174,7 @@ pub fn NavBar() -> impl IntoView {
             </NavigationMenuContent>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <NavigationMenuLink class=navigation_menu_trigger_style() href="#">
-              "Documentation"
-            </NavigationMenuLink>
+            <SearchBox/>
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>

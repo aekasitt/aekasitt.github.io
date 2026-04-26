@@ -13,6 +13,7 @@ dependencies = [
  "leptos",
  "leptos_meta",
  "leptos_router",
+ "leptos_ui",
  "log",
  "serde",
  "serde_json",
@@ -1025,6 +1026,17 @@ dependencies = [
  "serde_json",
  "server_fn",
  "tachys",
+]
+
+[[package]]
+name = "leptos_ui"
+version = "0.3.22"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2e265d90234373acd8e7428dea8be306225e4da092a16b3807b9beb5775d0711"
+dependencies = [
+ "leptos",
+ "paste",
+ "tw_merge",
 ]
 
 [[package]]
