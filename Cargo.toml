@@ -36,7 +36,7 @@ crate-type = ['cdylib', 'rlib']
 [package]
 edition = '2024'
 name = 'aekasitt-github-io'
-version = '0.1.0'
+publish = false
 
 
 [profile.dev]
