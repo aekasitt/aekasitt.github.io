@@ -10,7 +10,6 @@ mod components {
     clx! {PopoverDescription, p, "text-muted-foreground text-sm"}
 }
 
-pub use components::*;
 
 /* ========================================================== */
 /*                     ✨ FUNCTIONS ✨                        */

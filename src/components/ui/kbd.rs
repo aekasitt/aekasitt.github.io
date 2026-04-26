@@ -7,4 +7,3 @@ mod components {
     clx! {KbdGroup, kbd, "inline-flex items-center gap-1"}
 }
 
-pub use components::*;

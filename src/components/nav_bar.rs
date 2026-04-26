@@ -7,8 +7,8 @@ use leptos::prelude::*;
 use crate::components::hooks::use_random::use_random_id;
 use crate::components::search_box::SearchBox;
 use crate::components::ui::navigation_menu::{
-  NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink,
-  NavigationMenuList, NavigationMenuTrigger, navigation_menu_trigger_style,
+  NavigationMenu, NavigationMenuContent, NavigationMenuItem,
+  NavigationMenuList, NavigationMenuTrigger,
 };
 
 #[component]
