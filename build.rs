@@ -1,21 +1,24 @@
 /* ~~/build.rs */
 
 // standard crates
+use std::cmp::Reverse;
 use std::env;
-use std::fs::{read_dir, read_to_string, write};
+use std::fs::{metadata, read_dir, read_to_string, write};
 use std::path::Path;
 
 // third-party crates
+use chrono::{DateTime, Utc};
 use serde::Serialize;
 
 #[derive(Serialize)]
 struct ManifestEntry {
+  created: DateTime<Utc>,
   slug: String,
   title: String,
 }
 
 /// build  hook
-fn main() {
+fn main() -> std::io::Result<()> {
   let manifest_dir = env::var("CARGO_MANIFEST_DIR").expect("CARGO_MANIFEST_DIR");
   let assets_dir = Path::new(&manifest_dir).join("assets");
   let posts_dir = Path::new(&manifest_dir).join("posts");
@@ -38,10 +41,16 @@ fn main() {
         .map(|line| line.trim_start_matches("# ").trim().to_string())
         .filter(|line| !line.is_empty())
         .unwrap_or_else(|| "Untitled post".to_string());
-      entries.push(ManifestEntry { slug, title });
+      let created = metadata(path)?.created()?.into();
+      entries.push(ManifestEntry {
+        created,
+        slug,
+        title,
+      });
     }
   }
-  entries.sort_by(|a, b| a.slug.cmp(&b.slug));
+  entries.sort_by_key(|item| Reverse(item.created));
   let json = serde_json::to_string(&entries).expect("serialize manifest");
   write(assets_dir.join("manifest.json"), json).expect("write manifest.json");
+  Ok(())
 }

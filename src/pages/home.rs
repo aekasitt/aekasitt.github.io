@@ -10,6 +10,7 @@ use leptos_router::components::A;
 use crate::components::hooks::use_horizontal_scroll::{
   HorizontalScrollState, use_horizontal_scroll,
 };
+use crate::components::statistics::Statistics;
 use crate::files::posts::fetch_post_summaries;
 
 #[component]
@@ -19,6 +20,16 @@ pub fn Home() -> impl IntoView {
   let summaries = LocalResource::new(|| async move { fetch_post_summaries().await });
   view! {
     <Suspense fallback=|| view! { <p>"Loading posts…"</p> }>
+      <div
+        class="
+          isolate
+          lg:px-16
+          pt-8
+          px-8
+          relative
+        ">
+        <Statistics />
+      </div>
       {move || match summaries.get() {
         None => view! { <p>"Loading posts…"</p> }.into_any(),
         Some(Ok(posts)) => view! {

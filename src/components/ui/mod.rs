@@ -1,5 +1,6 @@
 /* ~~/src/components/ui/mod.rs */
 
+pub mod badge;
 pub mod button;
 pub mod command;
 pub mod input;
@@ -8,3 +9,4 @@ pub mod kbd;
 pub mod navigation_menu;
 pub mod popover;
 pub mod textarea;
+pub mod card;

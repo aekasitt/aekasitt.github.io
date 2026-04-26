@@ -1,4 +1,4 @@
-/* ~~/src/components/nav_bar.rs */
+/* ~~/src/components/navigation.rs */
 
 // third-party crates
 use leptos::prelude::*;
@@ -7,8 +7,8 @@ use leptos::prelude::*;
 use crate::components::hooks::use_random::use_random_id;
 use crate::components::search_box::SearchBox;
 use crate::components::ui::navigation_menu::{
-  NavigationMenu, NavigationMenuContent, NavigationMenuItem,
-  NavigationMenuList, NavigationMenuTrigger,
+  NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuList,
+  NavigationMenuTrigger,
 };
 
 #[component]
@@ -59,7 +59,7 @@ fn ListItem(
 }
 
 #[component]
-pub fn NavBar() -> impl IntoView {
+pub fn Navigation() -> impl IntoView {
   let id = use_random_id();
   view! {
     <div
@@ -68,7 +68,6 @@ pub fn NavBar() -> impl IntoView {
         justify-center
         items-start
         py-8
-        min-h-[350px]
       "
       id=id>
       <img alt="Krutt" class="h-10 w-10" src="assets/krutt.svg"/>
