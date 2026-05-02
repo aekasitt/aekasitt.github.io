@@ -16,6 +16,12 @@
 .DS_Store
 
 
+### markdowns ###
+*.md
+!LICENSE
+!README.md
+
+
 ### node ###
 /node_modules
 
