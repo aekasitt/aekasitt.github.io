@@ -7,12 +7,12 @@ use std::fs::{metadata, read_dir, read_to_string, write};
 use std::path::Path;
 
 // third-party crates
-use chrono::{DateTime, Utc};
+use chrono::{DateTime, NaiveDate, Utc};
 use serde::Serialize;
 
 #[derive(Serialize)]
 struct ManifestEntry {
-  created: DateTime<Utc>,
+  created: NaiveDate,
   slug: String,
   title: String,
 }
@@ -41,7 +41,8 @@ fn main() -> std::io::Result<()> {
         .map(|line| line.trim_start_matches("# ").trim().to_string())
         .filter(|line| !line.is_empty())
         .unwrap_or_else(|| "Untitled post".to_string());
-      let created = metadata(path)?.created()?.into();
+      let created_datetime: DateTime<Utc> = metadata(path)?.created()?.into();
+      let created = created_datetime.date_naive();
       entries.push(ManifestEntry {
         created,
         slug,
