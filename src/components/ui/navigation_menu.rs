@@ -35,10 +35,6 @@ pub fn navigation_menu_trigger_style() -> &'static str {
   "
 }
 
-/* ========================================================== */
-/*             CONTEXTS              */
-/* ========================================================== */
-
 #[derive(Clone)]
 struct NavigationMenuContext {
   menu_id: String,

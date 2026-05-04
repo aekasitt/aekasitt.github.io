@@ -239,4 +239,3 @@ pub fn InputGroupTextarea(#[prop(into, optional)] class: String) -> impl IntoVie
 
   view! { <Textarea class=merged_class attr:data-slot="input-group-control" /> }
 }
-

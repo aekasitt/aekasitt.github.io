@@ -79,4 +79,3 @@ pub fn use_horizontal_scroll(
     on_scroll,
   }
 }
-
