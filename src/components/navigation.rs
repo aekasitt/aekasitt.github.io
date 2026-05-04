@@ -74,7 +74,9 @@ pub fn Navigation() -> impl IntoView {
       <NavigationMenu>
         <NavigationMenuList>
           <NavigationMenuItem>
-            <NavigationMenuTrigger>"Getting Started"</NavigationMenuTrigger>
+            <NavigationMenuTrigger>
+              Author
+            </NavigationMenuTrigger>
             <NavigationMenuContent>
               <ul
                 class="
@@ -114,7 +116,7 @@ pub fn Navigation() -> impl IntoView {
                         text-lg
                         font-medium
                       ">
-                      "rust/ui"
+                      Sitt Guruvanich
                     </div>
                     <p
                       class="
@@ -122,24 +124,29 @@ pub fn Navigation() -> impl IntoView {
                         text-muted-foreground
                         text-sm
                       ">
-                      "Beautifully designed components built with Leptos and Tailwind CSS."
+                      Rustacean, Patriarch, Bitcoin and
+                      <strong>
+                        krutt
+                      </strong>
                     </p>
                   </a>
                 </li>
                 <ListItem href="#" title="Introduction">
-                  "Re-usable components built using Leptos and Tailwind CSS."
+                  This blog aims at providing the best bilingual Rust contents.
                 </ListItem>
-                <ListItem href="#" title="Installation">
-                  "How to install dependencies and structure your app."
+                <ListItem href="https://krutt.github.io" title="Krutt">
+                  Visit Bitcoin-focused alternative by the same author.
                 </ListItem>
-                <ListItem href="#" title="Typography">
-                  "Styles for headings, paragraphs, lists and more."
+                <ListItem href="https://geyser.fund/project/krutt" title="Sponsor">
+                  Provide sponsorship and support for future works.
                 </ListItem>
               </ul>
             </NavigationMenuContent>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <NavigationMenuTrigger>"Components"</NavigationMenuTrigger>
+            <NavigationMenuTrigger>
+              Resources
+            </NavigationMenuTrigger>
             <NavigationMenuContent>
               <ul
                 class="
@@ -151,23 +158,23 @@ pub fn Navigation() -> impl IntoView {
                   p-0
                   w-[400px]
                 ">
-                <ListItem href="#" title="Alert">
-                  "Displays a callout for user attention."
+                <ListItem href="https://aekasitt.github.io/zines" title="Zines">
+                  Bitcoin concepts condensed into printable A4 zines
                 </ListItem>
-                <ListItem href="#" title="Alert Dialog">
-                  "A modal dialog that interrupts the user."
+                <ListItem href="https://pypi.org/project/aesir" title="Aesir">
+                  Command Line Interface for setting up local Bitcoin regtest
                 </ListItem>
-                <ListItem href="#" title="Button">
-                  "Triggers an action or event."
+                <ListItem href="https://github.com/aekasitt/libri" title="Libri">
+                  Speed reader extension for your favorite web browser
                 </ListItem>
-                <ListItem href="#" title="Card">
-                  "Displays content in a card container."
+                <ListItem href="https://pypi.org/project/fastapi-csrf-protect" title="FastAPI Csrd Protect">
+                  FastAPI Extension providing protection against Cross-Site Request Forgery
                 </ListItem>
-                <ListItem href="#" title="Input">
-                  "Displays a form input field."
+                <ListItem href="https://aekasitt.github.io/notes" title="Notes">
+                  Scrapbook for implementing ideas in Python programming language
                 </ListItem>
-                <ListItem href="#" title="Select">
-                  "Displays a list of options to pick from."
+                <ListItem href="https://krutt.github.io/thnbr" title="Thonburi">
+                  Bitcoin Script enabled Scrapbook
                 </ListItem>
               </ul>
             </NavigationMenuContent>
