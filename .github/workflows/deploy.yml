@@ -88,8 +88,8 @@ jobs:
         name: Copy static files (favicon, logo and generated manifest)
         run: |-
           mkdir -p dist/assets
+          cp assets/aekasitt.svg dist/assets/
           cp assets/favicon.ico dist/assets/
-          cp assets/krutt.svg dist/assets/
           cp assets/manifest.json dist/assets/
 
       - id: copy-blog-posts
