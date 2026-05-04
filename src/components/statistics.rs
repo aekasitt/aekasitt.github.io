@@ -23,9 +23,18 @@ pub fn Statistics() -> impl IntoView {
         class="
           grid
           gap-4
+          grid-cols-4
           max-w-2xl
           sm:grid-cols-2
         ">
+        <Card>
+          <CardHeader>
+            Post history
+          </CardHeader>
+          <CardContent>
+            <iframe src="/assets/calendar.html"></iframe>
+          </CardContent>
+        </Card>
         <Card>
           <CardHeader>
             <CardDescription>

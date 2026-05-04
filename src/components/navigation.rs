@@ -167,7 +167,7 @@ pub fn Navigation() -> impl IntoView {
                 <ListItem href="https://github.com/aekasitt/libri" title="Libri">
                   Speed reader extension for your favorite web browser
                 </ListItem>
-                <ListItem href="https://pypi.org/project/fastapi-csrf-protect" title="FastAPI Csrf Protect">
+                <ListItem href="https://pypi.org/project/fastapi-csrf-protect" title="FastAPI CSRF Protect">
                   FastAPI Extension providing protection against Cross-Site Request Forgery
                 </ListItem>
                 <ListItem href="https://aekasitt.github.io/notes" title="Notes">

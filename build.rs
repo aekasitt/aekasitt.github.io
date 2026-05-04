@@ -7,7 +7,13 @@ use std::fs::{metadata, read_dir, read_to_string, write};
 use std::path::Path;
 
 // third-party crates
-use chrono::{DateTime, NaiveDate, Utc};
+use charming::Chart;
+use charming::HtmlRenderer;
+use charming::component::{Calendar, Title, VisualMap, VisualMapType};
+use charming::datatype::DataFrame;
+use charming::element::{CoordinateSystem, ItemStyle, Orient, Tooltip};
+use charming::series::Heatmap;
+use chrono::{DateTime, Months, NaiveDate, Utc};
 use serde::Serialize;
 
 #[derive(Serialize)]
@@ -53,5 +59,44 @@ fn main() -> std::io::Result<()> {
   entries.sort_by_key(|item| Reverse(item.created));
   let json = serde_json::to_string(&entries).expect("serialize manifest");
   write(assets_dir.join("manifest.json"), json).expect("write manifest.json");
+
+  // Create a Heatmap calendar for landing page
+  let mut heatmap: Vec<DataFrame> = Vec::with_capacity(151);
+  for entry in entries {
+    heatmap.push(vec![entry.created.to_string().into()]);
+  }
+  let now = Utc::now();
+  let chart = Chart::new()
+    .calendar(
+      Calendar::new()
+        .item_style(ItemStyle::new().border_width(0.5))
+        .range((
+          now
+            .checked_sub_months(Months::new(3))
+            .expect("Resulting date out of range")
+            .format("%Y-%m-%d")
+            .to_string(),
+          now.format("%Y-%m-%d").to_string(),
+        ))
+        .top(120),
+    )
+    .series(
+      Heatmap::new()
+        .coordinate_system(CoordinateSystem::Calendar)
+        .data(heatmap),
+    )
+    .tooltip(Tooltip::new())
+    .title(Title::new().top(30).left("center").text("Daily Posts"))
+    .visual_map(
+      VisualMap::new()
+        .left("center")
+        .max(10000)
+        .min(0)
+        .orient(Orient::Horizontal)
+        .top(65)
+        .type_(VisualMapType::Piecewise),
+    );
+  let mut renderer = HtmlRenderer::new("Calendar", 1000, 800);
+  renderer.save(&chart, "assets/calendar.html").unwrap();
   Ok(())
 }
