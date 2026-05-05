@@ -15,19 +15,22 @@ pub fn Statistics() -> impl IntoView {
     <div
       class="
         flex
-        justify-end
         items-center
+        justify-start
         mb-4
       ">
       <div
         class="
-          grid
           gap-4
-          grid-cols-4
+          grid
+          grid-cols-2
           max-w-2xl
-          sm:grid-cols-2
+          md:grid-cols-4
         ">
-        <Card>
+        <Card
+          class="
+            col-span-2
+          ">
           <CardHeader>
             Post history
           </CardHeader>
