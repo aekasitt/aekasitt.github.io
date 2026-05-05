@@ -89,7 +89,7 @@ jobs:
         run: |-
           mkdir -p dist/assets
           cp assets/aekasitt.svg dist/assets/
-          cp assets/calendar.html dist/assets/
+          cp assets/calendar.svg dist/assets/
           cp assets/favicon.ico dist/assets/
           cp assets/manifest.json dist/assets/
 

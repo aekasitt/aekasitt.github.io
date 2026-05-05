@@ -11,6 +11,7 @@ use crate::components::ui::card::{
 
 #[component]
 pub fn Statistics() -> impl IntoView {
+  let calendar = include_str!("../../assets/calendar.svg");
   view! {
     <div
       class="
@@ -32,10 +33,12 @@ pub fn Statistics() -> impl IntoView {
             col-span-2
           ">
           <CardHeader>
-            Post history
+            <CardDescription>
+              Post history
+            </CardDescription>
           </CardHeader>
           <CardContent>
-            <iframe src="/assets/calendar.html"></iframe>
+            <div class="h-48 w-72" inner_html=calendar/>
           </CardContent>
         </Card>
         <Card>
