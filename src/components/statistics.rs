@@ -24,8 +24,8 @@ pub fn Statistics() -> impl IntoView {
           gap-4
           grid
           grid-cols-2
-          max-w-2xl
           md:grid-cols-4
+          w-full
         ">
         <Card
           class="
