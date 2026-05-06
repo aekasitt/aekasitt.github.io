@@ -38,7 +38,7 @@ pub fn Statistics() -> impl IntoView {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div class="h-48 w-72" inner_html=calendar/>
+            <div class="h-full w-full" inner_html=calendar/>
           </CardContent>
         </Card>
         <Card>

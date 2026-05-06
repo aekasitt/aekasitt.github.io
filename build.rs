@@ -4,15 +4,16 @@
 use std::cmp::Reverse;
 use std::env;
 use std::fs::{metadata, read_dir, read_to_string, write};
-use std::path::Path;
+use std::path::{Path, PathBuf};
+use std::process::Command;
 
 // third-party crates
-use charming::component::{Calendar, Title, VisualMap, VisualMapType};
-use charming::datatype::DataFrame;
+use charming::component::{Calendar, Title, VisualMap, VisualMapPiece, VisualMapType};
+use charming::datatype::{DataFrame, DataPoint};
 use charming::element::{CoordinateSystem, ItemStyle, Orient, Tooltip};
 use charming::series::Heatmap;
 use charming::{Chart, ImageRenderer};
-use chrono::{DateTime, Months, NaiveDate, Utc};
+use chrono::{DateTime, FixedOffset, Months, NaiveDate, Utc};
 use serde::Serialize;
 
 #[derive(Serialize)]
@@ -20,6 +21,29 @@ struct ManifestEntry {
   created: NaiveDate,
   slug: String,
   title: String,
+}
+
+/// obtain markdown creation date via git log otherwise fallback on filesystem metadata
+fn created_at(path: &PathBuf) -> NaiveDate {
+  let git_out = Command::new("git")
+    .args([
+      "log",
+      "--follow",
+      "--format=%aI",
+      "--diff-filter=A",
+      "--",
+      path.to_str().unwrap(),
+    ])
+    .output()
+    .expect("git log failed");
+  let iso = String::from_utf8_lossy(&git_out.stdout);
+  let iso = iso.lines().last().unwrap_or("").trim().to_string();
+  DateTime::parse_from_rfc3339(&iso)
+    .map(|dt| dt.date_naive())
+    .unwrap_or_else(|_| {
+      let fallback: DateTime<Utc> = metadata(&path).unwrap().modified().unwrap().into();
+      fallback.date_naive()
+    })
 }
 
 /// build  hook
@@ -38,16 +62,15 @@ fn main() -> std::io::Result<()> {
       let Some(stem) = path.file_stem().and_then(|s| s.to_str()) else {
         continue;
       };
-      let slug = stem.to_string();
+      let created = created_at(&path);
       let raw = read_to_string(&path).expect("read markdown");
+      let slug = stem.to_string();
       let title = raw
         .lines()
         .next()
         .map(|line| line.trim_start_matches("# ").trim().to_string())
         .filter(|line| !line.is_empty())
         .unwrap_or_else(|| "Untitled post".to_string());
-      let created_datetime: DateTime<Utc> = metadata(path)?.created()?.into();
-      let created = created_datetime.date_naive();
       entries.push(ManifestEntry {
         created,
         slug,
@@ -60,9 +83,12 @@ fn main() -> std::io::Result<()> {
   write(assets_dir.join("manifest.json"), json).expect("write manifest.json");
 
   // Create a Heatmap calendar for landing page
-  let mut heatmap: Vec<DataFrame> = Vec::with_capacity(186);
+  let mut heatmap: Vec<DataFrame> = Vec::with_capacity(153);
   for entry in entries {
-    heatmap.push(vec![entry.created.to_string().into()]);
+    heatmap.push(vec![
+      DataPoint::from(entry.created.to_string()),
+      DataPoint::from(1),
+    ]);
   }
   let now = Utc::now();
   let chart = Chart::new()
@@ -71,7 +97,7 @@ fn main() -> std::io::Result<()> {
         .item_style(ItemStyle::new().border_width(0.5))
         .range((
           now
-            .checked_sub_months(Months::new(6))
+            .checked_sub_months(Months::new(5))
             .expect("Resulting date out of range")
             .format("%Y-%m-%d")
             .to_string(),
@@ -87,14 +113,34 @@ fn main() -> std::io::Result<()> {
     .tooltip(Tooltip::new())
     .visual_map(
       VisualMap::new()
-        .bottom(6)
+        .bottom(36)
         .left("center")
-        .max(5)
-        .min(0)
         .orient(Orient::Horizontal)
+        .pieces(vec![
+          VisualMapPiece::new()
+            .color("#c6e48b")
+            .label("1")
+            .max(1)
+            .min(1),
+          VisualMapPiece::new()
+            .color("#7bc96f")
+            .label("2")
+            .max(2)
+            .min(2),
+          VisualMapPiece::new()
+            .color("#239a3b")
+            .label("3")
+            .max(3)
+            .min(3),
+          VisualMapPiece::new()
+            .color("#196127")
+            .label("4+")
+            .max(5)
+            .min(4),
+        ])
         .type_(VisualMapType::Piecewise),
     );
-  let mut renderer = ImageRenderer::new(400, 200);
+  let mut renderer = ImageRenderer::new(540, 180);
   renderer.save(&chart, "assets/calendar.svg").unwrap();
   Ok(())
 }
