@@ -78,6 +78,10 @@ jobs:
           </html>
           EOF
 
+      - id: copy-404-fallback
+        name: Copy index.html as 404 fallback for SPA deep links
+        run: cp dist/index.html dist/404.html
+
       - id: install-node-dependencies
         name: Install Node dependencies
         run: yarn
