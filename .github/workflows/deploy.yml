@@ -18,6 +18,8 @@ jobs:
       - id: checkout
         name: Checkout
         uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
 
       - id: remove-package-manager-from-package-json
         name: Remove packageManager attribute from package.json
