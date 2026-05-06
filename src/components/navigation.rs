@@ -73,7 +73,10 @@ pub fn Navigation() -> impl IntoView {
       id=id>
       <NavigationMenu>
         <NavigationMenuList>
-          <NavigationMenuItem>
+          <NavigationMenuItem
+            class="
+              px-2
+            ">
             <A href="/">
               <img
                 alt="GitHub profile picture"
