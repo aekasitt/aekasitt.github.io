@@ -1,6 +1,7 @@
 /* ~~/src/components/statistics.rs */
 
 // third-party crates
+use leptos::html::Div;
 use leptos::prelude::*;
 
 // local crates
@@ -12,6 +13,18 @@ use crate::components::ui::card::{
 #[component]
 pub fn Statistics() -> impl IntoView {
   let calendar = include_str!("../../assets/calendar.svg");
+  let calendar_ref = NodeRef::<Div>::new();
+  Effect::new(move |_| {
+    if let Some(element) = calendar_ref.get() {
+      let children = element.children();
+      for i in 0..children.length() {
+        if let Some(child) = children.item(i) {
+          let _ = child.remove_attribute("height");
+          let _ = child.remove_attribute("width");
+        }
+      }
+    }
+  });
   view! {
     <div
       class="
@@ -38,7 +51,7 @@ pub fn Statistics() -> impl IntoView {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div class="h-full w-full" inner_html=calendar/>
+            <div class="h-auto w-full" inner_html=calendar node_ref=calendar_ref/>
           </CardContent>
         </Card>
         <Card>

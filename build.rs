@@ -103,7 +103,7 @@ fn main() -> std::io::Result<()> {
             .to_string(),
           now.format("%Y-%m-%d").to_string(),
         ))
-        .top(24),
+        .top(48),
     )
     .series(
       Heatmap::new()
@@ -113,7 +113,6 @@ fn main() -> std::io::Result<()> {
     .tooltip(Tooltip::new())
     .visual_map(
       VisualMap::new()
-        .bottom(36)
         .left("center")
         .orient(Orient::Horizontal)
         .pieces(vec![
@@ -138,9 +137,10 @@ fn main() -> std::io::Result<()> {
             .max(5)
             .min(4),
         ])
+        .top(0)
         .type_(VisualMapType::Piecewise),
     );
-  let mut renderer = ImageRenderer::new(540, 180);
+  let mut renderer = ImageRenderer::new(600, 200);
   renderer.save(&chart, "assets/calendar.svg").unwrap();
   Ok(())
 }
