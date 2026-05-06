@@ -38,15 +38,20 @@ pub fn Post() -> impl IntoView {
           view! {
           <article
             class="
-              max-w-2xl
-              px-auto
+              isolate
+              lg:px-16
+              pt-8
+              px-8
+              relative
+              w-full
             ">
-            <Card
-              class="
-                w-full
-              ">
+            <Card>
               <CardHeader>
-                <CardTitle>
+                <CardTitle
+                  class="
+                    font-bold
+                    text-2xl
+                  ">
                   {title.get_value()}
                 </CardTitle>
                 <CardDescription>
