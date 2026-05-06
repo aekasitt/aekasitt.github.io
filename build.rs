@@ -2,6 +2,7 @@
 
 // standard crates
 use std::cmp::Reverse;
+use std::collections::HashMap;
 use std::env;
 use std::fs::{metadata, read_dir, read_to_string, write};
 use std::path::{Path, PathBuf};
@@ -82,14 +83,15 @@ fn main() -> std::io::Result<()> {
   let json = serde_json::to_string(&entries).expect("serialize manifest");
   write(assets_dir.join("manifest.json"), json).expect("write manifest.json");
 
-  // Create a Heatmap calendar for landing page
-  let mut heatmap: Vec<DataFrame> = Vec::with_capacity(153);
-  for entry in entries {
-    heatmap.push(vec![
-      DataPoint::from(entry.created.to_string()),
-      DataPoint::from(1),
-    ]);
+  // Create a Contribution calendar
+  let mut counts: HashMap<String, i64> = HashMap::new();
+  for entry in &entries {
+    *counts.entry(entry.created.to_string()).or_insert(0) += 1;
   }
+  let heatmap: Vec<DataFrame> = counts
+    .into_iter()
+    .map(|(date, count)| vec![DataPoint::from(date), DataPoint::from(count)])
+    .collect();
   let now = Utc::now();
   let chart = Chart::new()
     .calendar(
