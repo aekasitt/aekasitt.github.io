@@ -2,6 +2,7 @@
 
 // third-party crates
 use leptos::prelude::*;
+use leptos_router::components::A;
 
 // local modules
 use crate::components::hooks::use_random::use_random_id;
@@ -70,9 +71,20 @@ pub fn Navigation() -> impl IntoView {
         py-8
       "
       id=id>
-      <img alt="GitHub profile picture" class="h-10 w-10" src="/assets/aekasitt.svg"/>
       <NavigationMenu>
         <NavigationMenuList>
+          <NavigationMenuItem>
+            <A href="/">
+              <img
+                alt="GitHub profile picture"
+                class="
+                  h-10
+                  w-10
+                "
+                src="/assets/aekasitt.svg"
+              />
+            </A>
+          </NavigationMenuItem>
           <NavigationMenuItem>
             <NavigationMenuTrigger>
               Author

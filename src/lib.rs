@@ -2,8 +2,7 @@
 
 // third-party crates
 use leptos::prelude::*;
-use leptos_meta::Title;
-use leptos_meta::*;
+use leptos_meta::{Meta, Title, provide_meta_context};
 use leptos_router::components::{FlatRoutes, Redirect, Route, Router};
 use leptos_router::path;
 
@@ -27,10 +26,10 @@ pub fn App() -> impl IntoView {
   provide_meta_context();
   let fallback = || view! { <p>"Page not found."</p> }.into_view();
   view! {
-    <Title text="Sitt's personal blog"/>
+    <Title text="Guru's Gazette"/>
     <Meta name="color-scheme" content="dark light"/>
-    <Navigation />
     <Router>
+      <Navigation />
       <main>
         <FlatRoutes fallback>
           <Route path=path!("/") view=pages::Home/>
