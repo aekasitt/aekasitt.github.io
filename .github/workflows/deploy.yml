@@ -91,7 +91,7 @@ jobs:
         run: yarn build
 
       - id: copy-assets
-        name: Copy static files (favicon, logo and generated manifest)
+        name: Copy static files (favicon, generated manifest, and vector assets)
         run: |-
           mkdir -p dist/assets
           cp assets/aekasitt.svg dist/assets/
