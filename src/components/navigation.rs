@@ -70,7 +70,7 @@ pub fn Navigation() -> impl IntoView {
         py-8
       "
       id=id>
-      <img alt="Krutt" class="h-10 w-10" src="assets/aekasitt.svg"/>
+      <img alt="GitHub profile picture" class="h-10 w-10" src="/assets/aekasitt.svg"/>
       <NavigationMenu>
         <NavigationMenuList>
           <NavigationMenuItem>
