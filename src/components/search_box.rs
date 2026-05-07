@@ -1,7 +1,6 @@
 /* ~~/src/components/search_box.rs */
 
 // third-party crates
-use icons::{Command as CommandIcon, Search};
 use leptos::prelude::*;
 use strum::{Display, EnumIter, IntoEnumIterator};
 
@@ -10,6 +9,7 @@ use crate::components::ui::command::{
   Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList,
 };
 use crate::components::ui::popover::{Popover, PopoverAlign, PopoverContent, PopoverTrigger};
+use crate::icons::{Command as CommandIcon, Search};
 
 #[derive(Clone, Copy, Display, EnumIter, Eq, PartialEq)]
 enum Content {

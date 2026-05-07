@@ -1,7 +1,6 @@
 /* ~~/src/components/ui/command.rs */
 
 // third-party crates
-use icons::Check;
 use leptos::portal::Portal;
 use leptos::prelude::*;
 use leptos_ui::clx;
@@ -9,6 +8,7 @@ use tw_merge::*;
 
 // local crates
 use crate::components::ui::button::{Button, ButtonVariant};
+use crate::icons::Check;
 
 const TRIGGER_ID_QUALIFIER: &str = "command__trigger";
 

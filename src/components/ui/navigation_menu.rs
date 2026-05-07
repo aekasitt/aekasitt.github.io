@@ -1,13 +1,13 @@
 /* ~~/src/components/ui/navigation_menu.rs */
 
 // third-party crates
-use icons::ChevronDown;
 use leptos::context::Provider;
 use leptos::prelude::*;
 use tw_merge::*;
 
 // local modules
 use crate::components::hooks::use_random::use_random_id_for;
+use crate::icons::ChevronDown;
 
 pub fn navigation_menu_trigger_style() -> &'static str {
   "

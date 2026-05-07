@@ -1,7 +1,6 @@
 /* ~~/src/pages/home.rs */
 
 // third-party crates
-use icons::{ChevronLeft, ChevronRight};
 use leptos::html::Div;
 use leptos::prelude::*;
 use leptos_router::components::A;
@@ -12,6 +11,7 @@ use crate::components::hooks::use_horizontal_scroll::{
 };
 use crate::components::statistics::Statistics;
 use crate::files::posts::fetch_post_summaries;
+use crate::icons::{ChevronLeft, ChevronRight};
 
 #[component]
 pub fn Home() -> impl IntoView {

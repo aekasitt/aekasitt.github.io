@@ -11,6 +11,7 @@ use crate::components::navigation::Navigation;
 
 mod components;
 mod files;
+mod icons;
 mod models;
 mod pages;
 
