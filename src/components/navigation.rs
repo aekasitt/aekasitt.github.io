@@ -15,13 +15,13 @@ use crate::components::ui::navigation_menu::{
 #[component]
 fn ListItem(
   #[prop(into)] href: String,
+  #[prop(into, optional)] target: String,
   #[prop(into)] title: String,
   children: Children,
 ) -> impl IntoView {
   view! {
     <li>
       <a
-        href=href
         class="
           block
           focus:bg-accent
@@ -36,7 +36,10 @@ fn ListItem(
           space-y-1
           transition-colors
           outline-none
-        ">
+        "
+        href=href
+        target=target
+        >
         <div
           class="
             text-sm
@@ -146,13 +149,23 @@ pub fn Navigation() -> impl IntoView {
                     </p>
                   </a>
                 </li>
-                <ListItem href="#" title="Introduction">
+                <ListItem
+                  href="#"
+                  title="Introduction"
+                  >
                   This blog aims at providing the best bilingual Rust contents.
                 </ListItem>
-                <ListItem href="https://krutt.github.io" title="Krutt">
+                <ListItem
+                  href="https://krutt.github.io"
+                  target="_blank"
+                  title="Krutt"
+                  >
                   Visit Bitcoin-focused alternative by the same author.
                 </ListItem>
-                <ListItem href="https://geyser.fund/project/krutt" title="Sponsor">
+                <ListItem
+                  href="https://geyser.fund/project/krutt"
+                  title="Sponsor"
+                  >
                   Provide sponsorship and support for future works.
                 </ListItem>
               </ul>
@@ -173,22 +186,46 @@ pub fn Navigation() -> impl IntoView {
                   p-0
                   w-[400px]
                 ">
-                <ListItem href="https://aekasitt.github.io/zines" title="Zines">
+                <ListItem
+                  href="https://aekasitt.github.io/zines/"
+                  target="_blank"
+                  title="Zines"
+                  >
                   Bitcoin concepts condensed into printable A4 zines
                 </ListItem>
-                <ListItem href="https://pypi.org/project/aesir" title="Aesir">
+                <ListItem
+                  href="https://pypi.org/project/aesir"
+                  target="_blank"
+                  title="Aesir"
+                  >
                   Command Line Interface for setting up local Bitcoin regtest
                 </ListItem>
-                <ListItem href="https://github.com/aekasitt/libri" title="Libri">
+                <ListItem
+                  href="https://github.com/aekasitt/libri"
+                  target="_blank"
+                  title="Libri"
+                  >
                   Speed reader extension for your favorite web browser
                 </ListItem>
-                <ListItem href="https://pypi.org/project/fastapi-csrf-protect" title="FastAPI CSRF Protect">
+                <ListItem
+                  href="https://pypi.org/project/fastapi-csrf-protect"
+                  target="_blank"
+                  title="FastAPI CSRF Protect"
+                  >
                   FastAPI Extension providing protection against Cross-Site Request Forgery
                 </ListItem>
-                <ListItem href="https://aekasitt.github.io/notes" title="Notes">
+                <ListItem
+                  href="https://aekasitt.github.io/notes"
+                  target="_blank"
+                  title="Notes"
+                  >
                   Scrapbook for implementing ideas in Python programming language
                 </ListItem>
-                <ListItem href="https://krutt.github.io/thnbr" title="Thonburi">
+                <ListItem
+                  href="https://krutt.github.io/thnbr"
+                  target="_blank"
+                  title="Thonburi"
+                  >
                   Bitcoin Script enabled Scrapbook
                 </ListItem>
               </ul>
