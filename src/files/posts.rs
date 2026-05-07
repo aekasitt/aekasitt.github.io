@@ -2,7 +2,7 @@
 
 // third-party crates
 use gloo_net::http::Request;
-use serde::Deserialize;
+use nanoserde::DeJson;
 
 // local modules
 use crate::models::Post;
@@ -10,7 +10,7 @@ use crate::models::Post;
 /// Same path layout as `cargo-leptos` output under `site-root` (`target/site/posts/`).
 pub const POSTS_MANIFEST_URL: &str = "/assets/manifest.json";
 
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Clone, Debug, DeJson)]
 pub struct PostSummary {
   pub slug: String,
   pub title: String,
@@ -32,7 +32,7 @@ pub async fn fetch_post_summaries() -> Result<Vec<PostSummary>, String> {
     ));
   }
   let text = response.text().await.map_err(|e| e.to_string())?;
-  serde_json::from_str(&text).map_err(|e| e.to_string())
+  DeJson::deserialize_json(&text).map_err(|e| e.to_string())
 }
 
 pub async fn fetch_post(slug: &str) -> Result<Option<Post>, String> {
