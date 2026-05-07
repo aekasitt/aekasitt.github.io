@@ -4,9 +4,10 @@
 use leptos::prelude::*;
 
 #[component]
-pub fn Search() -> impl IntoView {
+pub fn Search(#[prop(optional, into)] class: String) -> impl IntoView {
   view! {
     <svg
+      class=class
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
