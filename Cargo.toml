@@ -16,7 +16,7 @@ nanoserde = { default-features = false, features = ['json'], version = '0.2' }
 pulldown-cmark = { default-features = false, features = [
   'html',
 ], version = '0.13' }
-strum = '0.28.0'
+strum = { features = ['derive'], version = '0.28.0' }
 tw_merge = { features = ['variant'], version = '0.1.17' }
 wasm-bindgen = '0.2.118'
 web-sys = '0.3.95'
