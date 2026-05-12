@@ -15,7 +15,14 @@ use charming::element::{CoordinateSystem, ItemStyle, Orient, Tooltip};
 use charming::series::Heatmap;
 use charming::{Chart, ImageRenderer};
 use chrono::{DateTime, FixedOffset, Months, NaiveDate, Utc};
-use serde::Serialize;
+use markdown_frontmatter::parse;
+use serde::{Deserialize, Serialize};
+
+#[derive(Deserialize)]
+struct Frontmatter {
+  banner: Option<String>,
+  title: String,
+}
 
 #[derive(Serialize)]
 struct ManifestEntry {
@@ -66,16 +73,11 @@ fn main() -> std::io::Result<()> {
       let created = created_at(&path);
       let raw = read_to_string(&path).expect("read markdown");
       let slug = stem.to_string();
-      let title = raw
-        .lines()
-        .next()
-        .map(|line| line.trim_start_matches("# ").trim().to_string())
-        .filter(|line| !line.is_empty())
-        .unwrap_or_else(|| "Untitled post".to_string());
+      let (frontmatter, _) = parse::<Frontmatter>(&raw).expect("Invalid Frontmatter");
       entries.push(ManifestEntry {
         created,
         slug,
-        title,
+        title: frontmatter.title,
       });
     }
   }

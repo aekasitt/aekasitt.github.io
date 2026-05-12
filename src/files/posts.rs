@@ -3,11 +3,13 @@
 // third-party crates
 use gloo_net::http::Request;
 use nanoserde::DeJson;
+use regex_lite::Regex;
+use web_sys::console;
 
 // local modules
 use crate::models::Post;
 
-/// Same path layout as `cargo-leptos` output under `site-root` (`target/site/posts/`).
+// constants
 pub const POSTS_MANIFEST_URL: &str = "/assets/manifest.json";
 
 #[derive(Clone, Debug, DeJson)]
@@ -16,8 +18,25 @@ pub struct PostSummary {
   pub title: String,
 }
 
-pub fn post_markdown_url(slug: &str) -> String {
-  format!("/posts/{slug}.md")
+pub async fn fetch_post(slug: &str) -> Result<Option<Post>, String> {
+  let url = format!("/posts/{slug}.md");
+  let response = Request::get(&url).send().await.map_err(|e| e.to_string())?;
+  if response.status() == 404 {
+    return Ok(None);
+  }
+  if !response.ok() {
+    return Err(format!(
+      "post request failed with HTTP {}",
+      response.status()
+    ));
+  }
+  let markdown = response.text().await.map_err(|e| e.to_string())?;
+  let (title, content) = parse_markdown_post(&markdown);
+  Ok(Some(Post {
+    content,
+    slug: slug.to_string(),
+    title,
+  }))
 }
 
 pub async fn fetch_post_summaries() -> Result<Vec<PostSummary>, String> {
@@ -35,29 +54,10 @@ pub async fn fetch_post_summaries() -> Result<Vec<PostSummary>, String> {
   DeJson::deserialize_json(&text).map_err(|e| e.to_string())
 }
 
-pub async fn fetch_post(slug: &str) -> Result<Option<Post>, String> {
-  let url = post_markdown_url(slug);
-  let response = Request::get(&url).send().await.map_err(|e| e.to_string())?;
-  if response.status() == 404 {
-    return Ok(None);
-  }
-  if !response.ok() {
-    return Err(format!(
-      "post request failed with HTTP {}",
-      response.status()
-    ));
-  }
-  let markdown = response.text().await.map_err(|e| e.to_string())?;
-  let (title, content) = parse_markdown_post(&markdown);
-  Ok(Some(Post {
-    slug: slug.to_string(),
-    title,
-    content,
-  }))
-}
-
 pub fn parse_markdown_post(markdown: &str) -> (String, String) {
-  let mut lines = markdown.lines();
+  let frontmatter = Regex::new(r"(?s)^(\+\+\+|---).*?(\+\+\+|---)\s*").unwrap();
+  let body = frontmatter.replace(markdown, "");
+  let mut lines = body.lines();
   let title = lines
     .next()
     .map(|line| line.trim_start_matches("# ").trim().to_string())
