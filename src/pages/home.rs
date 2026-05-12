@@ -140,6 +140,7 @@ pub fn Home() -> impl IntoView {
                           class="
                             font-bold
                             text-2xl
+                            text-center
                             text-gray-300
                           ">
                           {post.title.clone()}
@@ -167,6 +168,7 @@ pub fn Home() -> impl IntoView {
                           class="
                             font-bold
                             text-2xl
+                            text-center
                             text-gray-600
                           ">
                           {post.title.clone()}
