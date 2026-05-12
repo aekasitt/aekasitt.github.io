@@ -11,11 +11,32 @@ use crate::models::Post;
 // constants
 pub const POSTS_MANIFEST_URL: &str = "/assets/manifest.json";
 
-#[derive(Clone, Debug, DeJson)]
-pub struct PostSummary {
+#[derive(Clone, DeJson)]
+pub struct Entry {
   pub banner: Option<String>,
   pub slug: String,
   pub title: String,
+}
+
+#[derive(Clone, DeJson)]
+pub struct Manifest {
+  pub entries: Vec<Entry>,
+  pub updated: String,
+}
+
+pub async fn fetch_manifest() -> Result<Manifest, String> {
+  let response = Request::get(POSTS_MANIFEST_URL)
+    .send()
+    .await
+    .map_err(|e| e.to_string())?;
+  if !response.ok() {
+    return Err(format!(
+      "manifest request failed with HTTP {}",
+      response.status()
+    ));
+  }
+  let text = response.text().await.map_err(|e| e.to_string())?;
+  DeJson::deserialize_json(&text).map_err(|e| e.to_string())
 }
 
 pub async fn fetch_post(slug: &str) -> Result<Option<Post>, String> {
@@ -37,21 +58,6 @@ pub async fn fetch_post(slug: &str) -> Result<Option<Post>, String> {
     slug: slug.to_string(),
     title,
   }))
-}
-
-pub async fn fetch_post_summaries() -> Result<Vec<PostSummary>, String> {
-  let response = Request::get(POSTS_MANIFEST_URL)
-    .send()
-    .await
-    .map_err(|e| e.to_string())?;
-  if !response.ok() {
-    return Err(format!(
-      "manifest request failed with HTTP {}",
-      response.status()
-    ));
-  }
-  let text = response.text().await.map_err(|e| e.to_string())?;
-  DeJson::deserialize_json(&text).map_err(|e| e.to_string())
 }
 
 pub fn parse_markdown_post(markdown: &str) -> (String, String) {

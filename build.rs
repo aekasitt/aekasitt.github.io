@@ -18,6 +18,14 @@ use chrono::{DateTime, FixedOffset, Months, NaiveDate, Utc};
 use markdown_frontmatter::parse;
 use serde::{Deserialize, Serialize};
 
+#[derive(Clone, Serialize)]
+struct Entry {
+  banner: Option<String>,
+  created: NaiveDate,
+  slug: String,
+  title: String,
+}
+
 #[derive(Deserialize)]
 struct Frontmatter {
   banner: Option<String>,
@@ -25,11 +33,9 @@ struct Frontmatter {
 }
 
 #[derive(Serialize)]
-struct ManifestEntry {
-  banner: Option<String>,
-  created: NaiveDate,
-  slug: String,
-  title: String,
+struct Manifest {
+  entries: Vec<Entry>,
+  updated: NaiveDate,
 }
 
 /// obtain markdown creation date via git log otherwise fallback on filesystem metadata
@@ -62,7 +68,7 @@ fn main() -> std::io::Result<()> {
   let posts_dir = Path::new(&manifest_dir).join("assets").join("posts");
   let posts_src = Path::new(&manifest_dir).join("posts");
   create_dir_all(&posts_dir).expect("create assets/posts directory");
-  let mut entries: Vec<ManifestEntry> = Vec::new();
+  let mut entries: Vec<Entry> = Vec::new();
   if posts_src.is_dir() {
     for entry in read_dir(&posts_src).expect("read posts") {
       let entry = entry.expect("dir entry");
@@ -79,7 +85,7 @@ fn main() -> std::io::Result<()> {
       let (frontmatter, content) = parse::<Frontmatter>(&raw).expect("Invalid Frontmatter");
       let post = posts_dir.join(format!("{slug}.md"));
       write(&post, content).expect("write content to destination");
-      entries.push(ManifestEntry {
+      entries.push(Entry {
         banner: frontmatter.banner,
         created,
         slug,
@@ -88,7 +94,11 @@ fn main() -> std::io::Result<()> {
     }
   }
   entries.sort_by_key(|item| Reverse(item.created));
-  let json = serde_json::to_string(&entries).expect("serialize manifest");
+  let manifest = Manifest {
+    entries: entries.clone(),
+    updated: Utc::now().date_naive(),
+  };
+  let json = serde_json::to_string(&manifest).expect("serialize manifest");
   write(assets_dir.join("manifest.json"), json).expect("write manifest.json");
 
   // Create a Contribution calendar

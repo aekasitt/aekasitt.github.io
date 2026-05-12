@@ -31,7 +31,7 @@ pub fn App() -> impl IntoView {
     <Meta name="color-scheme" content="dark light"/>
     <Router>
       <Navigation />
-      <main>
+      <main class="min-h-screen">
         <FlatRoutes fallback>
           <Route path=path!("/") view=pages::Home/>
           <Route path=path!("/about") view=move || view! { <Redirect path="/"/> }/>
