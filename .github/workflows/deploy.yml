@@ -100,10 +100,10 @@ jobs:
           cp assets/manifest.json dist/assets/
 
       - id: copy-blog-posts
-        name: Copy markdown files processed by build hook
+        name: Copy markdown files preprocessed by build hook
         run: |-
-          mkdir -p dist/posts
-          cp -R posts/. dist/posts/
+          mkdir -p dist/assets/posts
+          cp -R assets/posts/. dist/assets/posts/
 
       - id: move-generated
         name: Move generated pkg directory into distribution

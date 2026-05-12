@@ -4,7 +4,7 @@
 use std::cmp::Reverse;
 use std::collections::HashMap;
 use std::env;
-use std::fs::{metadata, read_dir, read_to_string, write};
+use std::fs::{create_dir_all, metadata, read_dir, read_to_string, write};
 use std::path::{Path, PathBuf};
 use std::process::Command;
 
@@ -26,6 +26,7 @@ struct Frontmatter {
 
 #[derive(Serialize)]
 struct ManifestEntry {
+  banner: Option<String>,
   created: NaiveDate,
   slug: String,
   title: String,
@@ -58,10 +59,12 @@ fn created_at(path: &PathBuf) -> NaiveDate {
 fn main() -> std::io::Result<()> {
   let manifest_dir = env::var("CARGO_MANIFEST_DIR").expect("CARGO_MANIFEST_DIR");
   let assets_dir = Path::new(&manifest_dir).join("assets");
-  let posts_dir = Path::new(&manifest_dir).join("posts");
+  let posts_dir = Path::new(&manifest_dir).join("assets").join("posts");
+  let posts_src = Path::new(&manifest_dir).join("posts");
+  create_dir_all(&posts_dir).expect("create assets/posts directory");
   let mut entries: Vec<ManifestEntry> = Vec::new();
-  if posts_dir.is_dir() {
-    for entry in read_dir(&posts_dir).expect("read posts") {
+  if posts_src.is_dir() {
+    for entry in read_dir(&posts_src).expect("read posts") {
       let entry = entry.expect("dir entry");
       let path = entry.path();
       if path.extension().and_then(|e| e.to_str()) != Some("md") {
@@ -73,8 +76,11 @@ fn main() -> std::io::Result<()> {
       let created = created_at(&path);
       let raw = read_to_string(&path).expect("read markdown");
       let slug = stem.to_string();
-      let (frontmatter, _) = parse::<Frontmatter>(&raw).expect("Invalid Frontmatter");
+      let (frontmatter, content) = parse::<Frontmatter>(&raw).expect("Invalid Frontmatter");
+      let post = posts_dir.join(format!("{slug}.md"));
+      write(&post, content).expect("write content to destination");
       entries.push(ManifestEntry {
+        banner: frontmatter.banner,
         created,
         slug,
         title: frontmatter.title,

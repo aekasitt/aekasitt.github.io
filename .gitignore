@@ -1,35 +1,22 @@
 ### distribution ###
-/dist
-
-
-### generated ###
 /assets/calendar.svg
 /assets/manifest.json
-
+/assets/posts
+/dist
 
 ### envvar ###
 .direnv
 .env
 .envrc
 
-
 ### macos ###
 .DS_Store
-
-
-### markdowns ###
-*.md
-!LICENSE
-!README.md
-
 
 ### node ###
 /node_modules
 
-
 ### rust ###
 /target
-
 
 ### workspace ###
 .crush

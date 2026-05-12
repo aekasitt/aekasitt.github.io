@@ -3,7 +3,6 @@
 // third-party crates
 use gloo_net::http::Request;
 use nanoserde::DeJson;
-use regex_lite::Regex;
 use web_sys::console;
 
 // local modules
@@ -14,12 +13,13 @@ pub const POSTS_MANIFEST_URL: &str = "/assets/manifest.json";
 
 #[derive(Clone, Debug, DeJson)]
 pub struct PostSummary {
+  pub banner: Option<String>,
   pub slug: String,
   pub title: String,
 }
 
 pub async fn fetch_post(slug: &str) -> Result<Option<Post>, String> {
-  let url = format!("/posts/{slug}.md");
+  let url = format!("/assets/posts/{slug}.md");
   let response = Request::get(&url).send().await.map_err(|e| e.to_string())?;
   if response.status() == 404 {
     return Ok(None);
@@ -55,9 +55,7 @@ pub async fn fetch_post_summaries() -> Result<Vec<PostSummary>, String> {
 }
 
 pub fn parse_markdown_post(markdown: &str) -> (String, String) {
-  let frontmatter = Regex::new(r"(?s)^(\+\+\+|---).*?(\+\+\+|---)\s*").unwrap();
-  let body = frontmatter.replace(markdown, "");
-  let mut lines = body.lines();
+  let mut lines = markdown.lines();
   let title = lines
     .next()
     .map(|line| line.trim_start_matches("# ").trim().to_string())

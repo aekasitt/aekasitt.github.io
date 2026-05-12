@@ -107,29 +107,74 @@ pub fn Home() -> impl IntoView {
               on:scroll=move |e| scroll_ctx.on_scroll.run(e)
               >
               <For each=move || posts.clone() key=|post| post.slug.clone() let:post>
-                <A href=format!("/post/{}/", post.slug)>
-                  <div
-                    class="
-                      bg-gray-300
-                      flex
-                      h-64
-                      items-center
-                      justify-center
-                      rounded-lg
-                      shrink-0
-                      snap-start
-                      w-96
-                    ">
-                    <span
-                      class="
-                        font-bold
-                        text-2xl
-                        text-gray-600
-                      ">
-                      {post.title.clone()}
-                    </span>
-                  </div>
-                </A>
+                {if post.banner.is_some() {
+                  view! {
+                    <A href=format!("/post/{}/", post.slug)>
+                      <div
+                        class="
+                          flex
+                          h-64
+                          items-center
+                          justify-center
+                          relative
+                          shrink-0
+                          snap-start
+                          w-96
+                        "
+                        >
+                        <img
+                          alt={post.slug.clone()}
+                          class="
+                            absolute
+                            brightness-75
+                            h-full
+                            inset-0
+                            object-cover
+                            rounded-lg
+                            w-full
+                            -z-20
+                          "
+                          src={post.banner.clone()}
+                          />
+                        <span
+                          class="
+                            font-bold
+                            text-2xl
+                            text-gray-300
+                          ">
+                          {post.title.clone()}
+                        </span>
+                      </div>
+                    </A>
+                  }.into_any()
+                } else {
+                  view! {
+                    <A href=format!("/post/{}/", post.slug)>
+                      <div
+                        class="
+                          bg-gray-300
+                          flex
+                          h-64
+                          items-center
+                          justify-center
+                          rounded-lg
+                          shrink-0
+                          snap-start
+                          w-96
+                        "
+                        >
+                        <span
+                          class="
+                            font-bold
+                            text-2xl
+                            text-gray-600
+                          ">
+                          {post.title.clone()}
+                        </span>
+                      </div>
+                    </A>
+                  }.into_any()
+                }}
               </For>
             </div>
           </div>
