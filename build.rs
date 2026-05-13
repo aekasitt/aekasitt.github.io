@@ -106,7 +106,7 @@ fn main() -> std::io::Result<()> {
   for entry in &entries {
     *counts.entry(entry.created.to_string()).or_insert(0) += 1;
   }
-  let heatmap: Vec<DataFrame> = counts
+  let contributions: Vec<DataFrame> = counts
     .into_iter()
     .map(|(date, count)| vec![DataPoint::from(date), DataPoint::from(count)])
     .collect();
@@ -128,7 +128,7 @@ fn main() -> std::io::Result<()> {
     .series(
       Heatmap::new()
         .coordinate_system(CoordinateSystem::Calendar)
-        .data(heatmap),
+        .data(contributions),
     )
     .tooltip(Tooltip::new())
     .visual_map(
