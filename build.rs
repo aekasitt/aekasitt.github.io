@@ -9,12 +9,14 @@ use std::path::{Path, PathBuf};
 use std::process::Command;
 
 // third-party crates
-use charming::component::{Calendar, Title, VisualMap, VisualMapPiece, VisualMapType};
+use charming::component::{
+  Calendar, RadarCoordinate, RadarIndicator, VisualMap, VisualMapPiece, VisualMapType,
+};
 use charming::datatype::{DataFrame, DataPoint};
-use charming::element::{CoordinateSystem, ItemStyle, Orient, Tooltip};
-use charming::series::Heatmap;
+use charming::element::{AreaStyle, CoordinateSystem, ItemStyle, Orient, Tooltip};
+use charming::series::{Heatmap, Radar};
 use charming::{Chart, ImageRenderer};
-use chrono::{DateTime, FixedOffset, Months, NaiveDate, Utc};
+use chrono::{DateTime, Months, NaiveDate, Utc};
 use markdown_frontmatter::parse;
 use serde::{Deserialize, Serialize};
 
@@ -23,12 +25,14 @@ struct Entry {
   banner: Option<String>,
   created: NaiveDate,
   slug: String,
+  tags: Option<Vec<Tag>>,
   title: String,
 }
 
 #[derive(Deserialize)]
 struct Frontmatter {
   banner: Option<String>,
+  tags: Option<Vec<Tag>>,
   title: String,
 }
 
@@ -36,6 +40,22 @@ struct Frontmatter {
 struct Manifest {
   entries: Vec<Entry>,
   updated: NaiveDate,
+}
+
+#[derive(Clone, Eq, Deserialize, Hash, PartialEq, Serialize)]
+enum Tag {
+  #[serde(rename = "bitcoin")]
+  Bitcoin,
+  #[serde(rename = "guide")]
+  Guide,
+  #[serde(rename = "meme")]
+  Meme,
+  #[serde(rename = "python")]
+  Python,
+  #[serde(rename = "rust")]
+  Rust,
+  #[serde(rename = "tidbit")]
+  Tidbit,
 }
 
 /// obtain markdown creation date via git log otherwise fallback on filesystem metadata
@@ -69,6 +89,7 @@ fn main() -> std::io::Result<()> {
   let posts_src = Path::new(&manifest_dir).join("posts");
   create_dir_all(&posts_dir).expect("create assets/posts directory");
   let mut entries: Vec<Entry> = Vec::new();
+  let mut tags: Vec<Tag> = Vec::new();
   if posts_src.is_dir() {
     for entry in read_dir(&posts_src).expect("read posts") {
       let entry = entry.expect("dir entry");
@@ -89,8 +110,10 @@ fn main() -> std::io::Result<()> {
         banner: frontmatter.banner,
         created,
         slug,
+        tags: frontmatter.tags.clone(),
         title: frontmatter.title,
       });
+      tags.extend(frontmatter.tags.unwrap_or(vec![]));
     }
   }
   entries.sort_by_key(|item| Reverse(item.created));
@@ -160,7 +183,44 @@ fn main() -> std::io::Result<()> {
         .top(0)
         .type_(VisualMapType::Piecewise),
     );
-  let mut renderer = ImageRenderer::new(600, 200);
-  renderer.save(&chart, "assets/calendar.svg").unwrap();
+
+  // Create a Tags radar
+  let mut breakdown = HashMap::new();
+  for tag in tags {
+    *breakdown.entry(tag).or_insert(0) += 1;
+  }
+  let max_value: i64 = *breakdown.values().max().unwrap_or(&0);
+  let radar = Chart::new()
+    .radar(
+      RadarCoordinate::new()
+        .indicator(vec![
+          RadarIndicator::from(("Bitcoin", 0, max_value)),
+          RadarIndicator::from(("Guide", 0, max_value)),
+          RadarIndicator::from(("Meme", 0, max_value)),
+          RadarIndicator::from(("Python", 0, max_value)),
+          RadarIndicator::from(("Rust", 0, max_value)),
+          RadarIndicator::from(("Tidbit", 0, max_value)),
+        ])
+        .radius("70%"),
+    )
+    .series(Radar::new().area_style(AreaStyle::new()).data(vec![(
+      vec![
+        breakdown.get(&Tag::Bitcoin).copied().unwrap_or(0),
+        breakdown.get(&Tag::Guide).copied().unwrap_or(0),
+        breakdown.get(&Tag::Meme).copied().unwrap_or(0),
+        breakdown.get(&Tag::Python).copied().unwrap_or(0),
+        breakdown.get(&Tag::Rust).copied().unwrap_or(0),
+        breakdown.get(&Tag::Tidbit).copied().unwrap_or(0),
+      ],
+      "Tag breakdown",
+    )]));
+  let mut calendar_renderer = ImageRenderer::new(600, 200);
+  calendar_renderer
+    .save(&chart, "assets/calendar.svg")
+    .unwrap();
+  let mut tagradar_renderer = ImageRenderer::new(200, 180);
+  tagradar_renderer
+    .save(&radar, "assets/tagradar.svg")
+    .unwrap();
   Ok(())
 }

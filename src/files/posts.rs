@@ -3,7 +3,6 @@
 // third-party crates
 use gloo_net::http::Request;
 use nanoserde::DeJson;
-use web_sys::console;
 
 // local modules
 use crate::models::Post;

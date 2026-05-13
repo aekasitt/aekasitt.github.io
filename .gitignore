@@ -2,21 +2,27 @@
 /assets/calendar.svg
 /assets/manifest.json
 /assets/posts
+/assets/tagradar.svg
 /dist
+
 
 ### envvar ###
 .direnv
 .env
 .envrc
 
+
 ### macos ###
 .DS_Store
+
 
 ### node ###
 /node_modules
 
+
 ### rust ###
 /target
+
 
 ### workspace ###
 .crush
