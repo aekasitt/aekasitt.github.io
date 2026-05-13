@@ -132,7 +132,7 @@ pub fn Home() -> impl IntoView {
                             alt={post.slug.clone()}
                             class="
                               absolute
-                              brightness-75
+                              brightness-60
                               h-full
                               inset-0
                               object-cover
