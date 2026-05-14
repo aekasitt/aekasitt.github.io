@@ -48,8 +48,12 @@ enum Tag {
   Bitcoin,
   #[serde(rename = "guide")]
   Guide,
+  #[serde(rename = "hype")]
+  Hype,
   #[serde(rename = "meme")]
   Meme,
+  #[serde(rename = "news")]
+  News,
   #[serde(rename = "python")]
   Python,
   #[serde(rename = "rust")]
@@ -196,18 +200,22 @@ fn main() -> std::io::Result<()> {
         .indicator(vec![
           RadarIndicator::from(("Bitcoin", 0, max_value)),
           RadarIndicator::from(("Guide", 0, max_value)),
+          RadarIndicator::from(("Hype", 0, max_value)),
           RadarIndicator::from(("Meme", 0, max_value)),
+          RadarIndicator::from(("News", 0, max_value)),
           RadarIndicator::from(("Python", 0, max_value)),
           RadarIndicator::from(("Rust", 0, max_value)),
           RadarIndicator::from(("Tidbit", 0, max_value)),
         ])
-        .radius("70%"),
+        .radius("64%"),
     )
     .series(Radar::new().area_style(AreaStyle::new()).data(vec![(
       vec![
         breakdown.get(&Tag::Bitcoin).copied().unwrap_or(0),
         breakdown.get(&Tag::Guide).copied().unwrap_or(0),
+        breakdown.get(&Tag::Hype).copied().unwrap_or(0),
         breakdown.get(&Tag::Meme).copied().unwrap_or(0),
+        breakdown.get(&Tag::News).copied().unwrap_or(0),
         breakdown.get(&Tag::Python).copied().unwrap_or(0),
         breakdown.get(&Tag::Rust).copied().unwrap_or(0),
         breakdown.get(&Tag::Tidbit).copied().unwrap_or(0),
