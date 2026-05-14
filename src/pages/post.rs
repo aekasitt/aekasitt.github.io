@@ -2,7 +2,7 @@
 
 // third-party crates
 use leptos::prelude::*;
-use leptos_meta::{Meta, Title};
+use leptos_meta::Title;
 use leptos_router::hooks::use_params;
 use leptos_router::params::Params;
 use pulldown_cmark::Parser;
@@ -72,7 +72,6 @@ pub fn Post() -> impl IntoView {
                   />
                 </CardContent>
               </Card>
-              <Meta name="description" content=content.get_value()/>
               <Title text=title.get_value()/>
             </article>
           }.into_any()
