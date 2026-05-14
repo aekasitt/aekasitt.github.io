@@ -28,7 +28,30 @@ pub fn App() -> impl IntoView {
   let fallback = || view! { <p>"Page not found."</p> }.into_view();
   view! {
     <Title text="Guru's Gazette"/>
-    <Meta name="color-scheme" content="dark light"/>
+    <Meta
+      content="dark light"
+      name="color-scheme"
+      />
+    <Meta
+      content="Collection of Notes written by Sitt Guruvanich"
+      name="og:description"
+      />
+    <Meta
+      content="https://aekasitt.github.io/assets/opengraph.png"
+      name="og:image"
+      />
+    <Meta
+      content="Guru's Gazette"
+      name="og:title"
+      />
+    <Meta
+      content="website"
+      name="og:type"
+      />
+    <Meta
+      content="https://aekasitt.github.io"
+      name="og:url"
+      />
     <Router>
       <Navigation />
       <main class="min-h-screen">
