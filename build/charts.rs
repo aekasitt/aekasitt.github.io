@@ -1,6 +1,6 @@
 /* ~~/build/charts.rs */
 
-// standard crates
+// standard library
 use std::collections::HashMap;
 
 // third-party crates

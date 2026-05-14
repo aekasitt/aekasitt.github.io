@@ -1,6 +1,6 @@
 /* ~~/build/latest.rs */
 
-// standard crates
+// standard library
 use std::cmp::Reverse;
 use std::env;
 use std::fs::{create_dir_all, metadata, read_dir, read_to_string, write};
