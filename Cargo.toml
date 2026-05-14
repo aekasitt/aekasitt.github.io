@@ -44,6 +44,7 @@ unused_variables = 'allow'
 
 
 [package]
+build = 'build/main.rs'
 edition = '2024'
 name = 'aekasitt-github-io'
 publish = false

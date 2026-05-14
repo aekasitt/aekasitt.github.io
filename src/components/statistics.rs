@@ -12,12 +12,12 @@ pub fn Statistics(
   #[prop(optional, into)] count: usize,
   #[prop(optional, into)] updated: String,
 ) -> impl IntoView {
-  let calendar = include_str!("../../assets/calendar.svg");
-  let tagradar = include_str!("../../assets/tagradar.svg");
-  let calendar_ref = NodeRef::<Div>::new();
-  let tagradar_ref = NodeRef::<Div>::new();
+  let contributions = include_str!("../../assets/contributions.svg");
+  let tag_breakdown = include_str!("../../assets/tag-breakdown.svg");
+  let contributions_ref = NodeRef::<Div>::new();
+  let tag_breakdown_ref = NodeRef::<Div>::new();
   Effect::new(move |_| {
-    if let Some(element) = calendar_ref.get() {
+    if let Some(element) = contributions_ref.get() {
       let children = element.children();
       for i in 0..children.length() {
         if let Some(child) = children.item(i) {
@@ -26,7 +26,7 @@ pub fn Statistics(
         }
       }
     }
-    if let Some(element) = tagradar_ref.get() {
+    if let Some(element) = tag_breakdown_ref.get() {
       let children = element.children();
       for i in 0..children.length() {
         if let Some(child) = children.item(i) {
@@ -64,8 +64,8 @@ pub fn Statistics(
           <CardContent>
             <div
               class="h-auto w-full"
-              inner_html=calendar
-              node_ref=calendar_ref
+              inner_html=contributions
+              node_ref=contributions_ref
               />
           </CardContent>
         </Card>
@@ -78,8 +78,8 @@ pub fn Statistics(
           <CardContent>
             <div
               class="h-auto w-full"
-              inner_html=tagradar
-              node_ref=tagradar_ref
+              inner_html=tag_breakdown
+              node_ref=tag_breakdown_ref
               />
           </CardContent>
         </Card>
