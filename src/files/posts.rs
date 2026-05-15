@@ -66,6 +66,6 @@ pub fn parse_markdown_post(markdown: &str) -> (String, String) {
     .map(|line| line.trim_start_matches("# ").trim().to_string())
     .filter(|line| !line.is_empty())
     .unwrap_or_else(|| "Untitled post".to_string());
-  let content = lines.collect::<Vec<_>>().join("\n").trim().to_string();
+  let content = lines.collect::<Vec<_>>().join("<br>").trim().to_string();
   (title, content)
 }
