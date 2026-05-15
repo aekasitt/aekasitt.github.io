@@ -95,9 +95,10 @@ jobs:
         run: |-
           mkdir -p dist/assets
           cp assets/aekasitt.svg dist/assets/
-          cp assets/calendar.svg dist/assets/
+          cp assets/contributions.svg dist/assets/
           cp assets/favicon.ico dist/assets/
           cp assets/manifest.json dist/assets/
+          cp assets/tag-breakdown.svg dist/assets/
 
       - id: copy-blog-posts
         name: Copy markdown files preprocessed by build hook
