@@ -53,8 +53,8 @@ pub fn App() -> impl IntoView {
       name="og:url"
       />
     <Router>
-      <Navigation />
       <main class="min-h-screen">
+        <Navigation />
         <FlatRoutes fallback>
           <Route path=path!("/") view=pages::Home/>
           <Route path=path!("/about") view=move || view! { <Redirect path="/"/> }/>
