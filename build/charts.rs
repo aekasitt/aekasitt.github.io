@@ -11,7 +11,7 @@ use charming::datatype::{DataFrame, DataPoint};
 use charming::element::{AreaStyle, CoordinateSystem, ItemStyle, Orient, Tooltip};
 use charming::series::{Heatmap, Radar};
 use charming::{Chart, ImageRenderer};
-use chrono::{DateTime, Months, Utc};
+use chrono::{Months, Utc};
 
 // local modules
 use crate::models::{Entry, Tag};

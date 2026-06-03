@@ -5,8 +5,8 @@ use leptos::prelude::*;
 use leptos_router::components::A;
 
 // local modules
+use crate::components::commandbox::CommandBox;
 use crate::components::hooks::use_random::use_random_id;
-use crate::components::search_box::SearchBox;
 use crate::components::ui::navigation_menu::{
   NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuList,
   NavigationMenuTrigger,
@@ -232,7 +232,7 @@ pub fn Navigation() -> impl IntoView {
             </NavigationMenuContent>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <SearchBox/>
+            <CommandBox />
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>

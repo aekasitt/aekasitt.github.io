@@ -1,4 +1,4 @@
-/* ~~/src/components/search_box.rs */
+/* ~~/src/components/commandbox.rs */
 
 // third-party crates
 use leptos::prelude::*;
@@ -19,7 +19,7 @@ enum Content {
 }
 
 #[component]
-pub fn SearchBox() -> impl IntoView {
+pub fn CommandBox() -> impl IntoView {
   let value_signal = RwSignal::new(None::<Content>);
 
   view! {
