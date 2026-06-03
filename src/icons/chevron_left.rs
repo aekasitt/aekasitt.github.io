@@ -5,7 +5,7 @@ use leptos::prelude::*;
 
 #[component]
 pub fn ChevronLeft(#[prop(optional, into)] class: String) -> impl IntoView {
-  view! {
+  template! {
     <svg
       class=class
       version="1.1"

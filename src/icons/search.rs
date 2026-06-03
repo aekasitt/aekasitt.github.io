@@ -5,7 +5,7 @@ use leptos::prelude::*;
 
 #[component]
 pub fn Search(#[prop(optional, into)] class: String) -> impl IntoView {
-  view! {
+  template! {
     <svg
       class=class
       viewBox="0 0 24 24"

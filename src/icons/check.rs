@@ -5,7 +5,7 @@ use leptos::prelude::*;
 
 #[component]
 pub fn Check(#[prop(optional, into)] class: String) -> impl IntoView {
-  view! {
+  template! {
     <svg
       class=class
       viewBox="0 -3 32 32"

@@ -5,7 +5,7 @@ use leptos::prelude::*;
 
 #[component]
 pub fn ChevronDown(#[prop(optional, into)] class: String) -> impl IntoView {
-  view! {
+  template! {
     <svg
       class=class
       viewBox="0 -4.5 24 24"
