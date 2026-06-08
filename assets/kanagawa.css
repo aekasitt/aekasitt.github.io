@@ -1,0 +1,34 @@
+/* ~~/assets/kanagawa.css */
+
+/* Container styling for the raw text */
+pre:has(code.language-rust),
+pre[class*="language-rust"] {
+  background-color: #1f1f28; /* sumiInk1 (Dark Base) */
+  border: 1px solid #363646;     /* sumiInk3 (Border) */
+  border-radius: 8px;
+  padding: 16px;
+  overflow-x: auto;
+  position: relative;
+}
+
+/* Base text formatting inside the code block */
+pre:has(code.language-rust) code,
+code.language-rust {
+  font-family: "Fira Code", "JetBrains Mono", Consolas, monospace;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #dcd7ba;            /* fujiWhite (Global Text color) */
+  display: block;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  tab-size: 4;
+}
+
+/* Subtle selection glow */
+pre[class*="language-rust"] code ::selection {
+  background: #2a2a37;       /* sumiInk2 */
+  color: #f8f8f2;
+}
+

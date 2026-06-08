@@ -66,6 +66,7 @@ pub fn Post() -> impl IntoView {
                   <div
                     class="
                       dark:prose-invert
+                      max-w-none
                       prose
                     "
                     inner_html=content.get_value()
