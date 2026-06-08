@@ -2,11 +2,11 @@
 
 // third-party crates
 use leptos::prelude::*;
+use leptos_md::{CodeBlockTheme, Markdown, MarkdownOptions};
 use leptos_meta::Title;
 use leptos_router::hooks::use_params;
 use leptos_router::params::Params;
-use pulldown_cmark::Parser;
-use pulldown_cmark::html::push_html;
+use wasm_bindgen::prelude::*;
 
 // local modules
 use crate::components::ui::card::{Card, CardContent, CardDescription, CardHeader, CardTitle};
@@ -15,6 +15,17 @@ use crate::files::posts::fetch_post;
 #[derive(Params, Clone, Debug, PartialEq, Eq)]
 pub struct PostParams {
   slug: Option<String>,
+}
+
+#[wasm_bindgen(inline_js = r#"
+export function highlight() {
+  requestAnimationFrame(() => {
+    if (window.Prism)
+      window.Prism.highlightAll();
+  });
+}"#)]
+extern "C" {
+  fn highlight();
 }
 
 #[component]
@@ -29,15 +40,20 @@ pub fn Post() -> impl IntoView {
       }
     }
   });
+  Effect::new(move |_| {
+    if resource.get().and_then(|r| r.ok()).flatten().is_some() {
+      highlight();
+    }
+  });
   view! {
     <Suspense fallback=|| view! { <p>"Loading post…"</p> }>
       {move || match resource.get() {
         None => view! { <p>"Loading post…"</p> }.into_any(),
         Some(Ok(Some(post))) => {
-          let parser = Parser::new(&post.content);
-          let mut output = String::new();
-          push_html(&mut output, parser);
-          let content = StoredValue::new(output);
+          let content = StoredValue::new(post.content);
+          let options = MarkdownOptions::new()
+            .without_code_theme()        // No Tailwind theme (let highlighter handle it)
+            .with_language_classes(true); // Emit language-xxx classes (default)
           let title = StoredValue::new(post.title);
           view! {
             <article
@@ -62,14 +78,15 @@ pub fn Post() -> impl IntoView {
                     Sitt Guruvanich
                   </CardDescription>
                 </CardHeader>
-                <CardContent>
-                  <div
-                    class="
-                      dark:prose-invert
-                      max-w-none
-                      prose
-                    "
-                    inner_html=content.get_value()
+                <CardContent
+                  class="
+                    dark:prose-invert
+                    max-w-none
+                    prose
+                  ">
+                  <Markdown
+                    content=content.get_value()
+                    options=options
                   />
                 </CardContent>
               </Card>

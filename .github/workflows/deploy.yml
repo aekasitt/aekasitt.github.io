@@ -69,6 +69,8 @@ jobs:
               <link rel='stylesheet' crossorigin href='/styles.css'>
               <meta charset='UTF-8' />
               <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+              <script src='https://unpkg.com/prismjs/prism.js'></script>
+              <script src='https://unpkg.com/prismjs/components/prism-rust.min.js'></script>
               <script type='module'>
                 import init, { hydrate } from '/pkg/blog.js'
                 await init('/pkg/blog.wasm')
@@ -96,9 +98,9 @@ jobs:
         run: |-
           mkdir -p dist/assets
           cp assets/aekasitt.svg dist/assets/
+          cp assets/kanagawa.css dist/assets/
           cp assets/contributions.svg dist/assets/
           cp assets/favicon.ico dist/assets/
-          cp assets/kanagawa.css dist/assets/
           cp assets/manifest.json dist/assets/
           cp assets/tag-breakdown.svg dist/assets/
 

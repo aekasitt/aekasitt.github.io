@@ -1,34 +1,162 @@
-/* ~~/assets/kanagawa.css */
 
-/* Container styling for the raw text */
-pre:has(code.language-rust),
-pre[class*="language-rust"] {
-  background-color: #1f1f28; /* sumiInk1 (Dark Base) */
-  border: 1px solid #363646;     /* sumiInk3 (Border) */
-  border-radius: 8px;
-  padding: 16px;
-  overflow-x: auto;
-  position: relative;
+/**
+ * Kanagawa theme
+ *
+ * Adapted from a theme based on:
+ * Kanagawa Color Scheme (https://github.com/rebelot/kanagawa.nvim)
+ *
+ * @author aekasitt
+ * @version 1.0
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+color: #dcd7ba;
+font-family: "Fira Code", "JetBrains Mono", Consolas, Monaco, monospace;
+direction: ltr;
+text-align: left;
+white-space: pre;
+word-spacing: normal;
+word-break: normal;
+line-height: 1.5;
+
+-moz-tab-size: 4;
+-o-tab-size: 4;
+tab-size: 4;
+
+-webkit-hyphens: none;
+-moz-hyphens: none;
+-ms-hyphens: none;
+hyphens: none;
 }
 
-/* Base text formatting inside the code block */
-pre:has(code.language-rust) code,
-code.language-rust {
-  font-family: "Fira Code", "JetBrains Mono", Consolas, monospace;
-  font-size: 14px;
-  line-height: 1.6;
-  color: #dcd7ba;            /* fujiWhite (Global Text color) */
-  display: block;
-  text-align: left;
-  white-space: pre;
-  word-spacing: normal;
-  word-break: normal;
-  tab-size: 4;
+pre[class*="language-"]::-moz-selection, pre[class*="language-"] ::-moz-selection,
+code[class*="language-"]::-moz-selection, code[class*="language-"] ::-moz-selection {
+color: inherit;
+background: rgba(126, 156, 216, .25);
 }
 
-/* Subtle selection glow */
-pre[class*="language-rust"] code ::selection {
-  background: #2a2a37;       /* sumiInk2 */
-  color: #f8f8f2;
+pre[class*="language-"]::selection, pre[class*="language-"] ::selection,
+code[class*="language-"]::selection, code[class*="language-"] ::selection {
+color: inherit;
+background: rgba(126, 156, 216, .25);
 }
 
+/* Code blocks */
+pre[class*="language-"] {
+padding: 1em;
+margin: .5em 0;
+overflow: auto;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+background: #1f1f28;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+padding: .1em;
+border-radius: .3em;
+}
+
+.token.comment,
+.token.prolog,
+.token.cdata {
+color: #727169;
+font-style: italic;
+}
+
+.token.delimiter,
+.token.boolean,
+.token.keyword,
+.token.selector,
+.token.important,
+.token.atrule {
+color: #957fb8;
+font-weight: bold;
+}
+
+.token.operator,
+.token.punctuation,
+.token.attr-name {
+color: #c8c093;
+}
+
+.token.tag,
+.token.tag .punctuation,
+.token.doctype,
+.token.builtin {
+color: #e6c384;
+}
+
+.token.entity,
+.token.number,
+.token.symbol {
+color: #d27e99;
+}
+
+.token.property,
+.token.constant,
+.token.variable {
+color: #7e9cd8;
+}
+
+.token.string,
+.token.char {
+color: #76946a;
+}
+
+.token.attr-value,
+.token.attr-value .punctuation {
+color: #98bb6c;
+}
+
+.token.attr-value .punctuation:first-child {
+color: #c8c093;
+}
+
+.token.url {
+color: #7fb4ca;
+text-decoration: underline;
+}
+
+.token.function {
+color: #7aa89f;
+}
+
+.token.regex {
+background: #363646;
+}
+
+.token.bold {
+font-weight: bold;
+}
+
+.token.italic {
+font-style: italic;
+}
+
+.token.inserted {
+background: #2b3328;
+}
+
+.token.deleted {
+background: #43242b;
+}
+
+code.language-css .token.property,
+code.language-css .token.property + .token.punctuation {
+color: #c8c093;
+}
+
+code.language-css .token.id {
+color: #7aa89f;
+}
+
+code.language-css .token.selector > .token.class,
+code.language-css .token.selector > .token.attribute,
+code.language-css .token.selector > .token.pseudo-class,
+code.language-css .token.selector > .token.pseudo-element {
+color: #7aa89f;
+}
