@@ -1,4 +1,4 @@
-# Sitt's personal blog
+# Guru's Gazette
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/aekasitt/aekasitt.github.io/blob/master/LICENSE)
 [![Top](https://img.shields.io/github/languages/top/aekasitt/aekasitt.github.io)](https://github.com/aekasitt/libri)
