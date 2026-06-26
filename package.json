@@ -5,7 +5,7 @@
     "tailwindcss": "^4.2.2"
   },
   "name": "aekasitt-github-io",
-  "packageManager": "yarn@6.0.0-rc.18",
+  "packageManager": "yarn@6.0.0-rc.19",
   "scripts": {
     "build": "tailwindcss -i assets/tailwind.css --minify -o dist/styles.css",
     "serve": "serve",

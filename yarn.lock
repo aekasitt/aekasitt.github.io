@@ -3,7 +3,7 @@
     "version": 9
   },
   "workspaces": {
-    "aekasitt-github-io": "6a4a37b6f22567902060b3d82f0a620a2028f4e72e0dc66008d0f1fc3f58587fd199fd65b127cf90c3897db76ee262d8dcf38996ab3a0ba33ef120da8577bd3a"
+    "aekasitt-github-io": "29ff9b67bfef4b703f93a33408196da7b18d6f70b79679b30864f34f9843d042e345bd08e18965d068ff8a22acd2e4be1220c369c57ab85775d03f1e788964e0"
   },
   "entries": {
     "@emnapi/core@npm:^1.10.0": {
@@ -933,7 +933,7 @@
       }
     },
     "detect-libc@npm:^1.0.3": {
-      "checksum": "0492235fbbf723d75ee7b2c3c07e2d0ad10f95971a092e36bdeed5806533458ead4a819e5b20e396338b9b0609ddff1f5ce6c398e9b4df861a6a58ff7a9a3dbb",
+      "checksum": "37d8db0a58f2fce8183717999f9e05f209e83e7f986095cb21ae2509b37b2a52af3d4c56875edbc23f75f67efcb0fe2a7569820a5332aef584915be4359b1065",
       "resolution": {
         "resolution": "detect-libc@npm:1.0.3",
         "version": "1.0.3"
