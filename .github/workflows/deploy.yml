@@ -99,6 +99,7 @@ jobs:
         run: |-
           mkdir -p dist/assets
           cp assets/aekasitt.svg dist/assets/
+          cp assets/blockquotes.css dist/assets/
           cp assets/kanagawa.css dist/assets/
           cp assets/contributions.svg dist/assets/
           cp assets/favicon.ico dist/assets/
