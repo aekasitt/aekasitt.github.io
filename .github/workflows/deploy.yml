@@ -65,6 +65,7 @@ jobs:
           <html lang='en'>
             <head>
               <link rel='icon' href='/assets/favicon.ico' />
+              <link rel='stylesheet' crossorigin href='/assets/blockquotes.css'>
               <link rel='stylesheet' crossorigin href='/assets/kanagawa.css'>
               <link rel='stylesheet' crossorigin href='/styles.css'>
               <meta charset='UTF-8' />
