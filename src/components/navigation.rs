@@ -101,6 +101,7 @@ pub fn Navigation() -> impl IntoView {
                   grid
                   gap-3
                   lg:w-[600px]
+                  list-none
                   md:grid-cols-2
                   md:w-[500px]
                   p-0
@@ -181,6 +182,7 @@ pub fn Navigation() -> impl IntoView {
                   grid
                   gap-3
                   lg:w-[600px]
+                  list-none
                   md:grid-cols-2
                   md:w-[500px]
                   p-0
