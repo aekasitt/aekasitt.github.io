@@ -10,7 +10,7 @@ use crate::components::ui::card::{Card, CardContent, CardDescription, CardHeader
 #[component]
 pub fn Statistics(
   #[prop(optional, into)] count: usize,
-  #[prop(optional, into)] updated: String,
+  #[prop(optional, into)] served_by: String,
 ) -> impl IntoView {
   let contributions = include_str!("../../assets/contributions.svg");
   let tag_breakdown = include_str!("../../assets/tag-breakdown.svg");
@@ -86,7 +86,7 @@ pub fn Statistics(
         <Card>
           <CardHeader>
             <CardDescription>
-              Last updated
+              Served by
             </CardDescription>
             <CardTitle
               class="
@@ -94,7 +94,7 @@ pub fn Statistics(
                 text-2xl
                 text-right
               ">
-              { updated }
+              { served_by }
             </CardTitle>
             <CardDescription>
               Total Posts

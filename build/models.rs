@@ -21,9 +21,9 @@ pub struct Frontmatter {
 }
 
 #[derive(Serialize)]
-pub struct Manifest {
+#[serde(transparent)]
+pub struct Latest {
   pub entries: Vec<Entry>,
-  pub updated: NaiveDate,
 }
 
 #[derive(Clone, Eq, Deserialize, Hash, PartialEq, Serialize)]

@@ -6,18 +6,18 @@ use leptos::prelude::*;
 // local modules
 use crate::components::latestmill::LatestMill;
 use crate::components::statistics::Statistics;
-use crate::files::posts::fetch_manifest;
+use crate::files::posts::fetch_latest_entries;
 
 #[component]
 pub fn Home() -> impl IntoView {
-  let manifest = LocalResource::new(|| async move { fetch_manifest().await });
+  let latest = LocalResource::new(|| async move { fetch_latest_entries().await });
   view! {
     <Suspense fallback=|| view! { <p>"Loading posts…"</p> }>
-      {move || match manifest.get() {
+      {move || match latest.get() {
         None => view! { <p>"Loading posts…"</p> }.into_any(),
-        Some(Ok(summary)) => {
-          let entries = StoredValue::new(summary.entries);
-          let updated = StoredValue::new(summary.updated);
+        Some(Ok(content)) => {
+          let entries = StoredValue::new(content.entries);
+          let served_by = StoredValue::new(content.served_by);
           view! {
             <div
               class="
@@ -29,7 +29,7 @@ pub fn Home() -> impl IntoView {
               ">
               <Statistics
                 count=entries.get_value().len()
-                updated=updated.get_value()
+                served_by=served_by.get_value()
                 />
             </div>
             <div

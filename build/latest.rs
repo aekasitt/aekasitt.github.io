@@ -12,7 +12,7 @@ use chrono::{DateTime, NaiveDate, Utc};
 use markdown_frontmatter::parse;
 
 // local modules
-use crate::models::{Entry, Frontmatter, Manifest, Tag};
+use crate::models::{Entry, Frontmatter, Latest, Tag};
 
 pub fn capture_latest_notes_for_dashboard() -> std::io::Result<(Vec<Entry>, Vec<Tag>)> {
   let manifest_dir = env::var("CARGO_MANIFEST_DIR").expect("CARGO_MANIFEST_DIR");
@@ -49,12 +49,11 @@ pub fn capture_latest_notes_for_dashboard() -> std::io::Result<(Vec<Entry>, Vec<
     }
   }
   entries.sort_by_key(|item| Reverse(item.created));
-  let manifest = Manifest {
+  let latest = Latest {
     entries: entries.clone(),
-    updated: Utc::now().date_naive(),
   };
-  let json = serde_json::to_string(&manifest).expect("serialize manifest");
-  write(assets_dir.join("manifest.json"), json).expect("write manifest.json");
+  let json = serde_json::to_string(&latest).expect("serialize latest entries");
+  write(assets_dir.join("latest.json"), json).expect("write latest.json");
   Ok((entries, tags))
 }
 

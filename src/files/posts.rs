@@ -2,13 +2,14 @@
 
 // third-party crates
 use gloo_net::http::Request;
-use nanoserde::DeJson;
+use nanoserde::{DeJson, DeJsonErr, DeJsonState, DeJsonTok};
+use web_sys::RequestCache;
 
 // local modules
 use crate::models::Post;
 
 // constants
-pub const POSTS_MANIFEST_URL: &str = "/assets/manifest.json";
+pub const LATEST_ENTRIES_URL: &str = "/assets/latest.json";
 
 #[derive(Clone, DeJson)]
 pub struct Entry {
@@ -18,24 +19,34 @@ pub struct Entry {
 }
 
 #[derive(Clone, DeJson)]
-pub struct Manifest {
+pub struct Latest {
   pub entries: Vec<Entry>,
-  pub updated: String,
+  pub served_by: String,
 }
 
-pub async fn fetch_manifest() -> Result<Manifest, String> {
-  let response = Request::get(POSTS_MANIFEST_URL)
+pub async fn fetch_latest_entries() -> Result<Latest, String> {
+  let response = Request::get(LATEST_ENTRIES_URL)
+    .cache(RequestCache::NoCache)
     .send()
     .await
     .map_err(|e| e.to_string())?;
   if !response.ok() {
     return Err(format!(
-      "manifest request failed with HTTP {}",
+      "request to retrieve latest entries failed with HTTP {}",
       response.status()
     ));
   }
+  let headers = response.headers();
+  let served_by = if let Some(server) = headers.get("server") {
+    server
+  } else {
+    String::from("Development")
+  };
   let text = response.text().await.map_err(|e| e.to_string())?;
-  DeJson::deserialize_json(&text).map_err(|e| e.to_string())
+  Ok(Latest {
+    entries: DeJson::deserialize_json(&text).map_err(|e| e.to_string())?,
+    served_by,
+  })
 }
 
 pub async fn fetch_post(slug: &str) -> Result<Option<Post>, String> {
