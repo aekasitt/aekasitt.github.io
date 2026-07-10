@@ -95,7 +95,7 @@ jobs:
         run: yarn build
 
       - id: copy-assets
-        name: Copy static files (favicon, generated manifest, stylesheet and vector assets)
+        name: Copy static files (favicon, latest entries, stylesheet and vector assets)
         run: |-
           mkdir -p dist/assets
           cp assets/aekasitt.svg dist/assets/
@@ -103,7 +103,7 @@ jobs:
           cp assets/kanagawa.css dist/assets/
           cp assets/contributions.svg dist/assets/
           cp assets/favicon.ico dist/assets/
-          cp assets/manifest.json dist/assets/
+          cp assets/latest.json dist/assets/
           cp assets/tag-breakdown.svg dist/assets/
 
       - id: copy-blog-posts
