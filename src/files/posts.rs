@@ -1,15 +1,20 @@
 /* ~~/src/files/posts.rs */
 
 // third-party crates
+use futures_util::StreamExt;
 use gloo_net::http::Request;
-use nanoserde::{DeJson, DeJsonErr, DeJsonState, DeJsonTok};
-use web_sys::RequestCache;
+use js_sys::{Reflect, Uint8Array};
+use nanoserde::DeJson;
+use wasm_bindgen::JsCast;
+use wasm_bindgen_futures::JsFuture;
+use web_sys::{ReadableStreamDefaultReader, RequestCache, Response, TextDecoder};
 
 // local modules
 use crate::models::Post;
 
 // constants
-pub const LATEST_ENTRIES_URL: &str = "/assets/latest.json";
+pub const LATEST_ENTRY_NDJSON: &str = "/assets/latest.ndjson";
+pub const MAX_ALLOWED_ENTRIES: usize = 20;
 
 #[derive(Clone, DeJson)]
 pub struct Entry {
@@ -25,7 +30,7 @@ pub struct Latest {
 }
 
 pub async fn fetch_latest_entries() -> Result<Latest, String> {
-  let response = Request::get(LATEST_ENTRIES_URL)
+  let response = Request::get(LATEST_ENTRY_NDJSON)
     .cache(RequestCache::NoCache)
     .send()
     .await
@@ -42,11 +47,52 @@ pub async fn fetch_latest_entries() -> Result<Latest, String> {
   } else {
     String::from("Development")
   };
-  let text = response.text().await.map_err(|e| e.to_string())?;
-  Ok(Latest {
-    entries: DeJson::deserialize_json(&text).map_err(|e| e.to_string())?,
-    served_by,
-  })
+  let web_sys_response: web_sys::Response = response.into();
+  let stream = web_sys_response
+    .body()
+    .ok_or_else(|| "response has no body stream".to_string())?;
+  let reader = stream
+    .get_reader()
+    .dyn_into::<ReadableStreamDefaultReader>()
+    .map_err(|e| format!("failed to cast reader: {:?}", e))?;
+  let mut buffer = String::new();
+  let mut count: usize = 0;
+  let mut entries: Vec<Entry> = vec![];
+  let decoder = TextDecoder::new_with_label("utf-8")
+    .map_err(|e| format!("failed to create decoder: {:?}", e))?;
+  loop {
+    if count >= MAX_ALLOWED_ENTRIES {
+      let _ = JsFuture::from(reader.cancel()).await;
+      break;
+    }
+    let read_result = JsFuture::from(reader.read())
+      .await
+      .map_err(|e| format!("stream read error: {:?}", e))?;
+    let done = Reflect::get(&read_result, &"done".into())
+      .map_err(|e| format!("failed to read 'done' property: {:?}", e))?
+      .as_bool()
+      .unwrap_or(true);
+    if done {
+      break;
+    }
+    let chunk = Reflect::get(&read_result, &"value".into())
+      .map_err(|e| format!("failed to read 'value' property: {:?}", e))?;
+    let bytes = Uint8Array::new(&chunk);
+    if let Ok(text) = decoder.decode_with_buffer_source(&bytes) {
+      buffer.push_str(&text);
+      while let Some(pos) = buffer.find('\n') {
+        let line: String = buffer.drain(..=pos).collect();
+        let trimmed = line.trim();
+        if !trimmed.is_empty()
+          && let Ok(entry) = DeJson::deserialize_json(&trimmed)
+        {
+          entries.push(entry);
+          count += 1;
+        }
+      }
+    }
+  }
+  Ok(Latest { entries, served_by })
 }
 
 pub async fn fetch_post(slug: &str) -> Result<Option<Post>, String> {

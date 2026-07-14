@@ -1,6 +1,6 @@
 ### distribution ###
 /assets/contributions.svg
-/assets/latest.json
+/assets/latest.ndjson
 /assets/posts
 /assets/tag-breakdown.svg
 /dist

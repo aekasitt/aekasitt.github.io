@@ -3,7 +3,8 @@
 // standard library
 use std::cmp::Reverse;
 use std::env;
-use std::fs::{create_dir_all, metadata, read_dir, read_to_string, write};
+use std::fs::{File, create_dir_all, metadata, read_dir, read_to_string, write};
+use std::io::Write;
 use std::path::{Path, PathBuf};
 use std::process::Command;
 
@@ -52,8 +53,12 @@ pub fn capture_latest_notes_for_dashboard() -> std::io::Result<(Vec<Entry>, Vec<
   let latest = Latest {
     entries: entries.clone(),
   };
-  let json = serde_json::to_string(&latest).expect("serialize latest entries");
-  write(assets_dir.join("latest.json"), json).expect("write latest.json");
+  let mut file = File::create(assets_dir.join("latest.ndjson")).expect("create latest.ndjson file");
+  for entry in &entries {
+    let mut line = serde_json::to_vec(entry).expect("serialize entry to json");
+    line.push(b'\n');
+    file.write_all(&line).expect("write entry to latest.ndjson");
+  }
   Ok((entries, tags))
 }
 
@@ -75,7 +80,7 @@ fn created_at(path: &PathBuf) -> NaiveDate {
   DateTime::parse_from_rfc3339(&iso)
     .map(|dt| dt.date_naive())
     .unwrap_or_else(|_| {
-      let fallback: DateTime<Utc> = metadata(&path).unwrap().modified().unwrap().into();
+      let fallback: DateTime<Utc> = metadata(path).unwrap().modified().unwrap().into();
       fallback.date_naive()
     })
 }
