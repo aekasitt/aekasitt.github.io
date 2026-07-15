@@ -13,8 +13,8 @@ use web_sys::{ReadableStreamDefaultReader, RequestCache, Response, TextDecoder};
 use crate::models::Post;
 
 // constants
-pub const LATEST_ENTRY_NDJSON: &str = "/assets/latest.ndjson";
-pub const MAX_ALLOWED_ENTRIES: usize = 20;
+const LATEST_ENTRY_JSON: &str = "/assets/latest.ndjson";
+const MAX_ALLOWED_BYTES: usize = 500 * 1024;
 
 #[derive(Clone, DeJson)]
 pub struct Entry {
@@ -30,7 +30,8 @@ pub struct Latest {
 }
 
 pub async fn fetch_latest_entries() -> Result<Latest, String> {
-  let response = Request::get(LATEST_ENTRY_NDJSON)
+  let response = Request::get(LATEST_ENTRY_JSON)
+    .header("Range", &format!("bytes=0-{}", MAX_ALLOWED_BYTES))
     .cache(RequestCache::NoCache)
     .send()
     .await
@@ -56,15 +57,10 @@ pub async fn fetch_latest_entries() -> Result<Latest, String> {
     .dyn_into::<ReadableStreamDefaultReader>()
     .map_err(|e| format!("failed to cast reader: {:?}", e))?;
   let mut buffer = String::new();
-  let mut count: usize = 0;
   let mut entries: Vec<Entry> = vec![];
   let decoder = TextDecoder::new_with_label("utf-8")
     .map_err(|e| format!("failed to create decoder: {:?}", e))?;
   loop {
-    if count >= MAX_ALLOWED_ENTRIES {
-      let _ = JsFuture::from(reader.cancel()).await;
-      break;
-    }
     let read_result = JsFuture::from(reader.read())
       .await
       .map_err(|e| format!("stream read error: {:?}", e))?;
@@ -87,7 +83,6 @@ pub async fn fetch_latest_entries() -> Result<Latest, String> {
           && let Ok(entry) = DeJson::deserialize_json(&trimmed)
         {
           entries.push(entry);
-          count += 1;
         }
       }
     }
