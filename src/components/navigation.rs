@@ -5,12 +5,13 @@ use leptos::prelude::*;
 use leptos_router::components::A;
 
 // local modules
-use crate::components::commandbox::CommandBox;
 use crate::components::hooks::use_random::use_random_id;
+use crate::components::ui::input::Input;
 use crate::components::ui::navigation_menu::{
   NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuList,
   NavigationMenuTrigger,
 };
+use crate::icons::Command;
 
 #[component]
 fn ListItem(
@@ -63,7 +64,7 @@ fn ListItem(
 }
 
 #[component]
-pub fn Navigation() -> impl IntoView {
+pub fn Navigation(set_search_toggled: WriteSignal<bool>) -> impl IntoView {
   let id = use_random_id();
   view! {
     <div
@@ -234,7 +235,27 @@ pub fn Navigation() -> impl IntoView {
             </NavigationMenuContent>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <CommandBox />
+            <span
+              class="truncate"
+              style="display: inline-block;"
+              >
+              <Input
+                on:focus=move |_| set_search_toggled.set(true)
+                on:blur=move |_| set_search_toggled.set(false)
+                placeholder="Search"
+                />
+              <Command
+                class="
+                  absolute
+                  ml-auto
+                  opacity-50
+                  pointer-events-none
+                  right-2
+                  size-4
+                  top-2
+                "
+              />
+            </span>
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>

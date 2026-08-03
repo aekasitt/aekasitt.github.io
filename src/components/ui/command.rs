@@ -1,6 +1,7 @@
 /* ~~/src/components/ui/command.rs */
 
 // third-party crates
+use leptos::html::Input;
 use leptos::portal::Portal;
 use leptos::prelude::*;
 use leptos_ui::clx;
@@ -556,6 +557,9 @@ pub fn Command(
 #[component]
 pub fn CommandInput(
   #[prop(into, optional)] class: String,
+  /// Accepting optional node reference
+  #[prop(optional)]
+  node_ref: Option<NodeRef<Input>>,
   /// Callback fired when search input changes. Use for server-side search.
   #[prop(optional)]
   on_search_change: Option<Callback<String>>,
@@ -582,6 +586,7 @@ pub fn CommandInput(
     <input
       data-name="CommandInput"
       class=merged_class
+      node_ref=node_ref.unwrap_or_default()
       autocomplete="off"
       // TODO. Leptos does not seem to have autocorrect in keys.rs
       // autocorrect="off"

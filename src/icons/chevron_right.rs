@@ -11,7 +11,6 @@ pub fn ChevronRight(#[prop(optional, into)] class: String) -> impl IntoView {
       version="1.1"
       viewBox="-5.5 0 26 26"
       xmlns="http://www.w3.org/2000/svg"
-      xmlns:sketch="http://www.bohemiancoding.com/sketch/ns"
       xmlns:xlink="http://www.w3.org/1999/xlink"
       >
       <g

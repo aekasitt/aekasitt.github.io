@@ -7,6 +7,7 @@ use leptos_router::components::{FlatRoutes, Redirect, Route, Router};
 use leptos_router::path;
 
 // local modules
+use crate::components::commandbox::CommandBox;
 use crate::components::navigation::Navigation;
 
 mod components;
@@ -26,6 +27,8 @@ pub fn hydrate() {
 pub fn App() -> impl IntoView {
   provide_meta_context();
   let fallback = || view! { <p>"Page not found."</p> }.into_view();
+  let (search_toggled, set_search_toggled) = signal(false);
+  let command_focused = RwSignal::new(false);
   view! {
     <Title text="Guru's Gazette"/>
     <Meta
@@ -54,7 +57,29 @@ pub fn App() -> impl IntoView {
       />
     <Router>
       <main class="min-h-screen">
-        <Navigation />
+        <Navigation set_search_toggled=set_search_toggled />
+        <div class=move || {
+          if command_focused.get() || search_toggled.get() {
+            "
+              backdrop-blur-xs
+              duration-200
+              fixed
+              flex
+              inset-0
+              items-start
+              justify-center
+              p-4
+              pt-16
+              shadow-lg
+              transition-all
+              z-50
+            "
+          } else {
+            "hidden"
+          }
+        }>
+          <CommandBox command_focused=command_focused search_toggled=search_toggled/>
+        </div>
         <FlatRoutes fallback>
           <Route path=path!("/") view=pages::Home/>
           <Route path=path!("/about") view=move || view! { <Redirect path="/"/> }/>
