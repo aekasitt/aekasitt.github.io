@@ -13,79 +13,79 @@ use crate::components::ui::command::{
 use crate::components::ui::input_group::{InputGroup, InputGroupAddon};
 use crate::components::ui::kbd::Kbd;
 use crate::icons::{
-  ArrowDown, ArrowRight, ArrowUp, CircleDashed, Command as CommandIcon, CornerDownLeft, Search,
+  ArrowDown, ArrowUp, ArrowUpRightFromSquare, Command as CommandIcon, CornerDownLeft, Marker,
+  Search,
 };
 
-#[derive(Clone, Debug, Display)]
+#[derive(Clone, Display)]
 enum CommandCategory {
-  Pages,
-  Components,
+  External,
+  Posts,
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone)]
 struct CommandItemData {
   label: &'static str,
   href: &'static str,
   category: CommandCategory,
 }
-
-const PAGES_ITEMS: &[CommandItemData] = &[
-  CommandItemData {
-    label: "Docs",
-    href: "/docs",
-    category: CommandCategory::Pages,
-  },
-  CommandItemData {
-    label: "Components",
-    href: "/components",
-    category: CommandCategory::Pages,
-  },
-  CommandItemData {
-    label: "Blocks",
-    href: "/blocks",
-    category: CommandCategory::Pages,
-  },
-];
-
 impl CommandItemData {
   fn icon(&self) -> AnyView {
     match self.category {
-      CommandCategory::Pages => view! { <ArrowRight /> }.into_any(),
-      CommandCategory::Components => view! { <CircleDashed /> }.into_any(),
+      CommandCategory::External => view! { <ArrowUpRightFromSquare /> }.into_any(),
+      CommandCategory::Posts => view! { <Marker /> }.into_any(),
     }
   }
 }
 
-const COMPONENTS_ITEMS: &[CommandItemData] = &[
+const EXTERNAL_ITEMS: &[CommandItemData] = &[
+  CommandItemData {
+    label: "Krutt",
+    href: "https://krutt.github.io",
+    category: CommandCategory::External,
+  },
+  CommandItemData {
+    label: "Sponsor",
+    href: "https://geyser.fund/project/gazette",
+    category: CommandCategory::External,
+  },
+  CommandItemData {
+    label: "Zines",
+    href: "https://aekasitt.github.io/zines",
+    category: CommandCategory::External,
+  },
+];
+
+const POST_ITEMS: &[CommandItemData] = &[
   CommandItemData {
     label: "Accordion",
     href: "/components/accordion",
-    category: CommandCategory::Components,
+    category: CommandCategory::Posts,
   },
   CommandItemData {
     label: "Alert",
     href: "/components/alert",
-    category: CommandCategory::Components,
+    category: CommandCategory::Posts,
   },
   CommandItemData {
     label: "Alert Dialog",
     href: "/components/alert-dialog",
-    category: CommandCategory::Components,
+    category: CommandCategory::Posts,
   },
   CommandItemData {
     label: "Avatar",
     href: "/components/avatar",
-    category: CommandCategory::Components,
+    category: CommandCategory::Posts,
   },
   CommandItemData {
     label: "Badge",
     href: "/components/badge",
-    category: CommandCategory::Components,
+    category: CommandCategory::Posts,
   },
   CommandItemData {
     label: "Breadcrumb",
     href: "/components/breadcrumb",
-    category: CommandCategory::Components,
+    category: CommandCategory::Posts,
   },
 ];
 
@@ -147,13 +147,22 @@ pub fn CommandBox(
             on:blur=move |_| command_focused.set(false)
           />
         </InputGroup>
-        <CommandList attr:id="command_demo" attr:tabindex="-1">
-          {[(CommandCategory::Pages, PAGES_ITEMS), (CommandCategory::Components, COMPONENTS_ITEMS)]
+        <CommandList
+          attr:id="command_demo"
+          attr:tabindex="-1"
+          >
+          {[(CommandCategory::External, EXTERNAL_ITEMS), (CommandCategory::Posts, POST_ITEMS)]
             .into_iter()
             .map(|(category, items)| {
               view! {
-                <CommandGroup attr:role="presentation" class="p-0">
-                  <CommandGroupLabel attr:aria-hidden="true" class="p-3">
+                <CommandGroup
+                  attr:role="presentation"
+                  class="p-0"
+                  >
+                  <CommandGroupLabel
+                    attr:aria-hidden="true"
+                    class="p-3"
+                    >
                     {category.to_string()}
                   </CommandGroupLabel>
                   {items
@@ -162,13 +171,15 @@ pub fn CommandBox(
                       let icon = item.icon();
                       view! {
                         <CommandItemLink
-                          class="px-3"
                           attr:href=item.href
-                          attr:target="_blank"
                           attr:rel="noopener noreferrer"
-                        >
+                          attr:target="_blank"
+                          class="px-3"
+                          >
                           {icon}
-                          <span>{item.label}</span>
+                          <span>
+                            {item.label}
+                          </span>
                         </CommandItemLink>
                       }
                     })
@@ -180,20 +191,34 @@ pub fn CommandBox(
         </CommandList>
       </Command>
       <CommandFooter>
-        <div class="flex gap-2 items-center">
+        <div
+          class="
+            flex
+            gap-2
+            items-center
+          ">
           <Kbd>
             <ArrowUp />
           </Kbd>
           <Kbd>
             <ArrowDown />
           </Kbd>
-          <span>Navigate</span>
+          <span>
+            Navigate
+          </span>
         </div>
-        <div class="flex gap-2 items-center">
+        <div
+          class="
+            flex
+            gap-2
+            items-center
+          ">
           <Kbd>
             <CornerDownLeft />
           </Kbd>
-          <span>Go to Page</span>
+          <span>
+            Go to Page
+          </span>
         </div>
       </CommandFooter>
     </div>

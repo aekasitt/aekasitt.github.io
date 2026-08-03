@@ -165,7 +165,7 @@ pub fn Navigation(set_search_toggled: WriteSignal<bool>) -> impl IntoView {
                   Visit Bitcoin-focused alternative by the same author.
                 </ListItem>
                 <ListItem
-                  href="https://geyser.fund/project/krutt"
+                  href="https://geyser.fund/project/gazette"
                   title="Sponsor"
                   >
                   Provide sponsorship and support for future works.
