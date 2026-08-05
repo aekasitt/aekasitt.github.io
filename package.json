@@ -8,7 +8,7 @@
   "packageManager": "yarn@6.0.0-rc.19",
   "scripts": {
     "build": "tailwindcss -i assets/tailwind.css --minify -o dist/styles.css",
-    "serve": "serve",
-    "watch": "tailwindcss -i assets/tailwind.css --minify -o dist/styles.css --watch"
+    "build:dev": "tailwindcss -i assets/tailwind.css --minify -o target/site/styles.css",
+    "serve:dev": "serve target/site"
   }
 }

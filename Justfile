@@ -3,8 +3,8 @@
 # Build project
 build:
   #!/usr/bin/env sh
-  cargo leptos build
-  yarn build
+  cargo leptos build --split
+  yarn build:dev
 
 # Check project prerequisites
 check:
@@ -38,35 +38,4 @@ check:
 # Serve
 serve:
   #!/usr/bin/env sh
-  yarn serve
-
-# Watch
-watch:
-  #!/usr/bin/env sh
-  [[ ! -e dist ]] && mkdir dist
-  stty -echoctl # hide ^C
-  stty intr ^C
-  cleanup() {
-    echo 'Cleaning up processes...'
-    [[ -z $LEPTOS_WATCH ]] && pkill -P $LEPTOS_WATCH
-    [[ $? -eq 0 ]] && echo "Terminated cargo-leptos watch process."
-    [[ -z $YARN_SERVE ]] && pkill -P $YARN_SERVE
-    [[ $? -eq 0 ]] && echo "Terminated yarn serve process." \
-    [[ -z $YARN_WATCH ]] && pkill -P $YARN_WATCH
-    [[ $? -eq 0 ]] && echo "Terminated yarn watch process."
-    stty sane
-    exit 0
-  }
-  trap 'cleanup' SIGINT
-  cargo leptos watch >/dev/null 2>&1 &
-  LEPTOS_WATCH=$!
-  yarn watch >/dev/null 2>&1 &
-  YARN_WATCH=$!
-  yarn serve >/dev/null 2>&1 &
-  YARN_SERVE=$!
-  echo "{
-    \"cargo-leptos-watch\": $LEPTOS_WATCH, 
-    \"yarn-watch\": $YARN_WATCH, 
-    \"yarn-serve\": $YARN_SERVE
-  }" | jq 'with_entries(.key |= . + "-pid")'
-  wait
+  yarn serve:dev
