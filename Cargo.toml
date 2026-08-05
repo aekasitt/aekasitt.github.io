@@ -16,6 +16,7 @@ leptos-md = '0.1.0'
 leptos_meta = { default-features = false, version = '0.8.5' }
 leptos_router = { default-features = false, version = '0.8.11' }
 leptos_ui = '0.3.22'
+lol_alloc = '0.4'
 nanoserde = { default-features = false, features = ['json'], version = '0.2' }
 strum = { features = ['derive'], version = '0.28.0' }
 tw_merge = { features = ['variant'], version = '0.1.17' }
@@ -55,6 +56,7 @@ codegen-units = 1
 lto = true
 opt-level = 'z'
 panic = 'abort'
+strip = true
 
 
 [package.metadata.leptos]

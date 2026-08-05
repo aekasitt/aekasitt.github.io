@@ -5,6 +5,8 @@ use leptos::prelude::*;
 use leptos_meta::{Meta, Title, provide_meta_context};
 use leptos_router::components::{FlatRoutes, Redirect, Route, Router};
 use leptos_router::path;
+#[cfg(target_arch = "wasm32")]
+use lol_alloc::{AssumeSingleThreaded, FreeListAllocator};
 
 // local modules
 use crate::components::commandbox::CommandBox;
@@ -15,6 +17,11 @@ mod files;
 mod icons;
 mod models;
 mod pages;
+
+#[cfg(target_arch = "wasm32")]
+#[global_allocator]
+static ALLOCATOR: AssumeSingleThreaded<FreeListAllocator> =
+  unsafe { AssumeSingleThreaded::new(FreeListAllocator::new()) };
 
 #[cfg(feature = "csr")]
 #[wasm_bindgen::prelude::wasm_bindgen]
