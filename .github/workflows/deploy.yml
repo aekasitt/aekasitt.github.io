@@ -51,7 +51,7 @@ jobs:
 
       - id: cargo-leptos-build-release
         name: Build Leptos WebAssembly
-        run: cargo leptos build --release
+        run: cargo leptos build --release --split
       
       - id: make-distribution-directory
         name: Create distribution directory
