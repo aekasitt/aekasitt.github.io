@@ -94,6 +94,48 @@ pub fn CommandBox(
   command_focused: RwSignal<bool>,
   search_toggled: ReadSignal<bool>,
 ) -> impl IntoView {
+  view! {
+    <div class=move || {
+      if command_focused.get() || search_toggled.get() {
+        "
+          backdrop-blur-xs
+          duration-200
+          fixed
+          flex
+          inset-0
+          items-start
+          justify-center
+          p-4
+          pt-16
+          shadow-lg
+          transition-all
+          z-50
+        "
+      } else {
+        "hidden"
+      }
+    }>
+      <Suspense fallback=move || view! { <div>"Loading commandbox..."</div> }>
+        {move || Suspend::new(async move {
+          LazyCommandBox(
+            LazyCommandBoxProps::builder()
+              .command_focused(command_focused)
+              .search_toggled(search_toggled)
+              .build()
+            ).await
+          })
+        }
+      </Suspense>
+    </div>
+  }
+}
+
+#[component]
+#[lazy]
+pub fn LazyCommandBox(
+  command_focused: RwSignal<bool>,
+  search_toggled: ReadSignal<bool>,
+) -> AnyView {
   let command_input_ref = NodeRef::<Input>::new();
   Effect::new(move |_| {
     if search_toggled.get() {
@@ -223,4 +265,5 @@ pub fn CommandBox(
       </CommandFooter>
     </div>
   }
+  .into_any()
 }

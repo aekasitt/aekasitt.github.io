@@ -64,7 +64,8 @@ fn ListItem(
 }
 
 #[component]
-pub fn Navigation(set_search_toggled: WriteSignal<bool>) -> impl IntoView {
+#[lazy]
+pub fn LazyNavigation(set_search_toggled: WriteSignal<bool>) -> AnyView {
   let id = use_random_id();
   view! {
     <div
@@ -260,5 +261,22 @@ pub fn Navigation(set_search_toggled: WriteSignal<bool>) -> impl IntoView {
         </NavigationMenuList>
       </NavigationMenu>
     </div>
+  }
+  .into_any()
+}
+
+#[component]
+pub fn Navigation(set_search_toggled: WriteSignal<bool>) -> impl IntoView {
+  view! {
+    <Suspense fallback=move || view! { <div>"Loading navigation..."</div> }>
+      {move || Suspend::new(async move {
+        LazyNavigation(
+            LazyNavigationProps::builder()
+              .set_search_toggled(set_search_toggled)
+              .build()
+            ).await
+          })
+        }
+    </Suspense>
   }
 }

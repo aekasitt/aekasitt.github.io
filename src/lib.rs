@@ -33,7 +33,6 @@ pub fn hydrate() {
 #[component]
 pub fn App() -> impl IntoView {
   provide_meta_context();
-  let fallback = || view! { <p>"Page not found."</p> }.into_view();
   let (search_toggled, set_search_toggled) = signal(false);
   let command_focused = RwSignal::new(false);
   view! {
@@ -65,29 +64,8 @@ pub fn App() -> impl IntoView {
     <Router>
       <main class="min-h-screen">
         <Navigation set_search_toggled=set_search_toggled />
-        <div class=move || {
-          if command_focused.get() || search_toggled.get() {
-            "
-              backdrop-blur-xs
-              duration-200
-              fixed
-              flex
-              inset-0
-              items-start
-              justify-center
-              p-4
-              pt-16
-              shadow-lg
-              transition-all
-              z-50
-            "
-          } else {
-            "hidden"
-          }
-        }>
-          <CommandBox command_focused=command_focused search_toggled=search_toggled/>
-        </div>
-        <FlatRoutes fallback>
+        <CommandBox command_focused=command_focused search_toggled=search_toggled />
+        <FlatRoutes fallback=|| view! { <p>"Page not found."</p> }.into_view()>
           <Route path=path!("/") view=pages::Home/>
           <Route path=path!("/about") view=move || view! { <Redirect path="/"/> }/>
           <Route path=path!("/post/:slug/") view=pages::Post/>
