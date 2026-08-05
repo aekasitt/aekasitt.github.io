@@ -13,7 +13,7 @@ use web_sys::{ReadableStreamDefaultReader, RequestCache, Response, TextDecoder};
 use crate::models::Post;
 
 // constants
-const LATEST_ENTRY_JSON: &str = "/latest.ndjson";
+const LATEST_ENTRY_JSON: &str = "/assets/latest.ndjson";
 const MAX_ALLOWED_BYTES: usize = 500 * 1024;
 
 #[derive(Clone, DeJson)]

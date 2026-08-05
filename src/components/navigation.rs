@@ -89,7 +89,7 @@ pub fn LazyNavigation(set_search_toggled: WriteSignal<bool>) -> AnyView {
                   h-10
                   w-10
                 "
-                src="/aekasitt.svg"
+                src="/assets/aekasitt.svg"
               />
             </A>
           </NavigationMenuItem>
