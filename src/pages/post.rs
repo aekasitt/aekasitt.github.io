@@ -52,8 +52,8 @@ pub fn Post() -> impl IntoView {
         Some(Ok(Some(post))) => {
           let content = StoredValue::new(post.content);
           let options = MarkdownOptions::new()
-            .without_code_theme()        // No Tailwind theme (let highlighter handle it)
-            .with_language_classes(true); // Emit language-xxx classes (default)
+            .without_code_theme()          // No Tailwind theme (let highlighter handle it)
+            .with_language_classes(true);  // Emit language-xxx classes (default)
           let title = StoredValue::new(post.title);
           view! {
             <article
