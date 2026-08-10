@@ -14,7 +14,8 @@
 
 ## Acknowledgments
 
-TBD;
+1. [ปริศนา - Prisna](https://www.f0nt.com/release/sov-prisna)
+  typeface by [uvSOV - Worawut Thanawatanawanich](https://fb.com/worawut.thanawatanawanich)
 
 ## License
 
