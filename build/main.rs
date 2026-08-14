@@ -14,15 +14,24 @@ mod ograph;
 
 use charts::{compile_breakdown_radar_chart_for_tags, compile_contribution_calendar_chart};
 use latest::capture_latest_notes_for_dashboard;
-use ograph::render_open_graph_image;
+use ograph::render_opengraph_image;
 
 /// build  hook
 fn main() -> std::io::Result<()> {
   let (entries, tags) = capture_latest_notes_for_dashboard()?;
   let count = entries.len();
+  let last_updated = entries
+    .iter()
+    .next()
+    .ok_or(std::io::Error::new(
+      std::io::ErrorKind::NotFound,
+      "Empty entries",
+    ))?
+    .created
+    .to_string();
   compile_breakdown_radar_chart_for_tags(tags)?;
   compile_contribution_calendar_chart(entries)?;
-  render_open_graph_image(count)?;
+  render_opengraph_image(count, &last_updated)?;
   #[cfg(debug_assertions)]
   {
     match create_dir("target/site") {

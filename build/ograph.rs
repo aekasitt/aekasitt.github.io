@@ -11,8 +11,7 @@ use resvg::render;
 use tiny_skia::{Pixmap, Transform};
 use usvg::{Options, Tree};
 
-pub fn render_open_graph_image(count: usize) -> std::io::Result<()> {
-  println!("{}", count);
+pub fn render_opengraph_image(count: usize, last_updated: &str) -> std::io::Result<()> {
   let mut font_db = usvg::fontdb::Database::new();
   let mut font_file = File::open("./assets/sov-prisna.ttf")?;
   let mut font_data = Vec::new();
@@ -136,7 +135,7 @@ pub fn render_open_graph_image(count: usize) -> std::io::Result<()> {
       text-anchor='middle'
       x='648px'
       y='448px'>
-      Placeholder
+      {last_updated}
     </text>
     <rect
       fill='none'
@@ -167,7 +166,7 @@ pub fn render_open_graph_image(count: usize) -> std::io::Result<()> {
       text-anchor='middle'
       x='982px'
       y='448px'>
-      {}
+      {count}
     </text>
     <rect
       fill='none'
@@ -192,11 +191,10 @@ pub fn render_open_graph_image(count: usize) -> std::io::Result<()> {
     <tspan
       dy='38px'
       x='416px'>
-      Simplicity and WebAssembly written by Sitt Guruvanich
+      Simplicity and WebAssembly by Aekasitt Guruvanich
     </tspan>
   </text>
 </svg>"#,
-    count,
   );
   let mut opt = Options::default();
   opt.fontdb = Arc::new(font_db);
