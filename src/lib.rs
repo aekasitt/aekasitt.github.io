@@ -36,32 +36,32 @@ pub fn App() -> impl IntoView {
   let (search_toggled, set_search_toggled) = signal(false);
   let command_focused = RwSignal::new(false);
   view! {
-    <Title text="Guru's Gazette"/>
-    <Meta
-      content="dark light"
-      name="color-scheme"
-      />
-    <Meta
-      content="Collection of Notes written by Sitt Guruvanich"
-      name="og:description"
-      />
-    <Meta
-      content="https://aekasitt.github.io/assets/opengraph.png"
-      name="og:image"
-      />
-    <Meta
-      content="Guru's Gazette"
-      name="og:title"
-      />
-    <Meta
-      content="website"
-      name="og:type"
-      />
-    <Meta
-      content="https://aekasitt.github.io"
-      name="og:url"
-      />
     <Router>
+      <Title text="Guru's Gazette"/>
+      <Meta
+        content="dark light"
+        name="color-scheme"
+        />
+      <Meta
+        content="Collection of Notes written by Sitt Guruvanich"
+        name="og:description"
+        />
+      <Meta
+        content="https://aekasitt.github.io/assets/opengraph.png"
+        name="og:image"
+        />
+      <Meta
+        content="Guru's Gazette"
+        name="og:title"
+        />
+      <Meta
+        content="website"
+        name="og:type"
+        />
+      <Meta
+        content="https://aekasitt.github.io"
+        name="og:url"
+        />
       <main class="min-h-screen">
         <Navigation set_search_toggled=set_search_toggled />
         <CommandBox command_focused=command_focused search_toggled=search_toggled />

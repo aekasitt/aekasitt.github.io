@@ -10,15 +10,19 @@ use std::io::Write;
 mod charts;
 mod latest;
 mod models;
+mod ograph;
 
 use charts::{compile_breakdown_radar_chart_for_tags, compile_contribution_calendar_chart};
 use latest::capture_latest_notes_for_dashboard;
+use ograph::render_open_graph_image;
 
 /// build  hook
 fn main() -> std::io::Result<()> {
   let (entries, tags) = capture_latest_notes_for_dashboard()?;
+  let count = entries.len();
   compile_breakdown_radar_chart_for_tags(tags)?;
   compile_contribution_calendar_chart(entries)?;
+  render_open_graph_image(count)?;
   #[cfg(debug_assertions)]
   {
     match create_dir("target/site") {
