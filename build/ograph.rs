@@ -208,6 +208,6 @@ pub fn render_opengraph_image(count: usize, last_updated: &str) -> std::io::Resu
       "Failed to create pixel buffer",
     ))?;
   render(&tree, Transform::default(), &mut pixmap.as_mut());
-  pixmap.save_png(Path::new("./assets/ograph.png"))?;
+  pixmap.save_png(Path::new("./assets/opengraph.png"))?;
   Ok(())
 }
