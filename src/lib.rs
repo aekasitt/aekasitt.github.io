@@ -40,27 +40,27 @@ pub fn App() -> impl IntoView {
       <Title text="Guru's Gazette"/>
       <Meta
         content="dark light"
-        name="color-scheme"
+        property="color-scheme"
         />
       <Meta
         content="Collection of Notes written by Sitt Guruvanich"
-        name="og:description"
+        property="og:description"
         />
       <Meta
         content="https://aekasitt.github.io/assets/opengraph.png"
-        name="og:image"
+        property="og:image"
         />
       <Meta
         content="Guru's Gazette"
-        name="og:title"
+        property="og:title"
         />
       <Meta
         content="website"
-        name="og:type"
+        property="og:type"
         />
       <Meta
         content="https://aekasitt.github.io"
-        name="og:url"
+        property="og:url"
         />
       <main class="min-h-screen">
         <Navigation set_search_toggled=set_search_toggled />
