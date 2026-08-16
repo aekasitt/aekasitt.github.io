@@ -120,8 +120,8 @@ pub fn render_opengraph_image(count: usize, last_updated: &str) -> std::io::Resu
   <g>
     <text
       fill='#BBB'
-      font-family='Noto Sans'
-      font-size='20px'
+      font-family='DejaVu Sans'
+      font-size='24px'
       stroke='#CCC'
       text-anchor='middle'
       x='650px'
@@ -130,8 +130,8 @@ pub fn render_opengraph_image(count: usize, last_updated: &str) -> std::io::Resu
     </text>
     <text
       fill='#777'
-      font-family='Noto Sans'
-      font-size='42px'
+      font-family='DejaVu Sans'
+      font-size='40px'
       text-anchor='middle'
       x='648px'
       y='448px'>
@@ -151,8 +151,8 @@ pub fn render_opengraph_image(count: usize, last_updated: &str) -> std::io::Resu
   <g>
     <text
       fill='#BBB'
-      font-family='Noto Sans'
-      font-size='20px'
+      font-family='DejaVu Sans'
+      font-size='24px'
       stroke='#CCC'
       text-anchor='middle'
       x='982px'
@@ -161,8 +161,8 @@ pub fn render_opengraph_image(count: usize, last_updated: &str) -> std::io::Resu
     </text>
     <text
       fill='#777'
-      font-family='Noto Sans'
-      font-size='42px'
+      font-family='DejaVu Sans'
+      font-size='40px'
       text-anchor='middle'
       x='982px'
       y='448px'>
@@ -180,7 +180,7 @@ pub fn render_opengraph_image(count: usize, last_updated: &str) -> std::io::Resu
       />
     </g>
   <text
-    font-family='Noto Sans'
+    font-family='DejaVu Sans'
     font-size='30px'
     y='544px'>
     <tspan
@@ -191,7 +191,7 @@ pub fn render_opengraph_image(count: usize, last_updated: &str) -> std::io::Resu
     <tspan
       dy='38px'
       x='420px'>
-      Simplicity and WebAssembly by Aekasitt Guruvanich
+      Simplicity and WebAssembly by Sitt Guruvanich
     </tspan>
   </text>
 </svg>"#,
