@@ -6,6 +6,8 @@
 [![Size](https://img.shields.io/github/repo-size/aekasitt/aekasitt.github.io)](https://github.com/aekasitt/aekasitt.github.io)
 [![Last commit](https://img.shields.io/github/last-commit/aekasitt/aekasitt.github.io/master)](https://github.com/aekasitt/aekasitt.github.io)
 
+![OpenGraph banner](https://aekasitt.github.io/assets/opengraph.png)
+
 ### Technical stack
 
 - [Rust](https://rust-lang.org)
