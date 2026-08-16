@@ -120,7 +120,7 @@ pub fn render_opengraph_image(count: usize, last_updated: &str) -> std::io::Resu
   <g>
     <text
       fill='#BBB'
-      font-family='Arial'
+      font-family='Noto Sans'
       font-size='20px'
       stroke='#CCC'
       text-anchor='middle'
@@ -130,7 +130,7 @@ pub fn render_opengraph_image(count: usize, last_updated: &str) -> std::io::Resu
     </text>
     <text
       fill='#777'
-      font-family='Arial'
+      font-family='Noto Sans'
       font-size='42px'
       text-anchor='middle'
       x='648px'
@@ -151,7 +151,7 @@ pub fn render_opengraph_image(count: usize, last_updated: &str) -> std::io::Resu
   <g>
     <text
       fill='#BBB'
-      font-family='Arial'
+      font-family='Noto Sans'
       font-size='20px'
       stroke='#CCC'
       text-anchor='middle'
@@ -161,7 +161,7 @@ pub fn render_opengraph_image(count: usize, last_updated: &str) -> std::io::Resu
     </text>
     <text
       fill='#777'
-      font-family='Arial'
+      font-family='Noto Sans'
       font-size='42px'
       text-anchor='middle'
       x='982px'
@@ -180,17 +180,17 @@ pub fn render_opengraph_image(count: usize, last_updated: &str) -> std::io::Resu
       />
     </g>
   <text
-    font-family='Arial'
-    font-size='32px'
+    font-family='Noto Sans'
+    font-size='30px'
     y='544px'>
     <tspan
       dy='0px'
-      x='416px'>
+      x='420px'>
       Collection of musings about of Bitcoin, Python, Rust,
     </tspan>
     <tspan
       dy='38px'
-      x='416px'>
+      x='420px'>
       Simplicity and WebAssembly by Aekasitt Guruvanich
     </tspan>
   </text>
