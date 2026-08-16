@@ -49,7 +49,13 @@ fn main() -> std::io::Result<()> {
     <link rel='stylesheet' crossorigin href='/kanagawa.css' />
     <link rel='stylesheet' crossorigin href='/styles.css'>
     <meta charset='UTF-8' />
+    <meta name='color-scheme' content='dark light' />
     <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <meta property='og:description' content='Collection of musings about Bitcoin, Python, Rust, Simplicity and WebAssembly by Aekasitt Guruvanich'>
+    <meta property='og:image' content='/assets/opengraph.png' />
+    <meta property='og:title' content="Guru's Gazette" />
+    <meta property='og:type' content='website' />
+    <meta property='og:url' content='http://localhost:3000' />
     <script src='https://unpkg.com/prismjs/prism.js'></script>
     <script src='https://unpkg.com/prismjs/components/prism-rust.min.js'></script>
     <script type='module'>

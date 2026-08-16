@@ -2,7 +2,6 @@
 
 // third-party crates
 use leptos::prelude::*;
-use leptos_meta::{Meta, Title, provide_meta_context};
 use leptos_router::components::{FlatRoutes, Redirect, Route, Router};
 use leptos_router::path;
 #[cfg(target_arch = "wasm32")]
@@ -32,36 +31,10 @@ pub fn hydrate() {
 
 #[component]
 pub fn App() -> impl IntoView {
-  provide_meta_context();
   let (search_toggled, set_search_toggled) = signal(false);
   let command_focused = RwSignal::new(false);
   view! {
     <Router>
-      <Title text="Guru's Gazette"/>
-      <Meta
-        content="dark light"
-        property="color-scheme"
-        />
-      <Meta
-        content="Collection of Notes written by Sitt Guruvanich"
-        property="og:description"
-        />
-      <Meta
-        content="https://aekasitt.github.io/assets/opengraph.png"
-        property="og:image"
-        />
-      <Meta
-        content="Guru's Gazette"
-        property="og:title"
-        />
-      <Meta
-        content="website"
-        property="og:type"
-        />
-      <Meta
-        content="https://aekasitt.github.io"
-        property="og:url"
-        />
       <main class="min-h-screen">
         <Navigation set_search_toggled=set_search_toggled />
         <CommandBox command_focused=command_focused search_toggled=search_toggled />

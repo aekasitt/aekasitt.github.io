@@ -3,7 +3,6 @@
 // third-party crates
 use leptos::prelude::*;
 use leptos_md::{CodeBlockTheme, Markdown, MarkdownOptions};
-use leptos_meta::Title;
 use leptos_router::hooks::use_params;
 use leptos_router::params::Params;
 use wasm_bindgen::prelude::*;
@@ -90,7 +89,6 @@ pub fn Post() -> impl IntoView {
                   />
                 </CardContent>
               </Card>
-              <Title text=title.get_value()/>
             </article>
           }.into_any()
         },

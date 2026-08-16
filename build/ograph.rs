@@ -186,7 +186,7 @@ pub fn render_opengraph_image(count: usize, last_updated: &str) -> std::io::Resu
     <tspan
       dy='0px'
       x='420px'>
-      Collection of musings about of Bitcoin, Python, Rust,
+      Collection of musings about Bitcoin, Python, Rust,
     </tspan>
     <tspan
       dy='38px'

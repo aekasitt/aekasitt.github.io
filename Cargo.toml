@@ -16,7 +16,6 @@ gloo-net = { default-features = false, features = ['http'], version = '0.6.0' }
 js-sys = '0.3.103'
 leptos = { default-features = false, version = '0.8.19' }
 leptos-md = '0.1.0'
-leptos_meta = { default-features = false, version = '0.8.5' }
 leptos_router = { default-features = false, version = '0.8.11' }
 leptos_ui = '0.3.22'
 lol_alloc = '0.4'
