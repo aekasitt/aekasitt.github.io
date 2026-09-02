@@ -88,6 +88,12 @@ pub fn compile_breakdown_radar_chart_for_tags(tags: Vec<Tag>) -> std::io::Result
     *breakdown.entry(tag).or_insert(0) += 1;
   }
   let max_value: i64 = *breakdown.values().max().unwrap_or(&0);
+  let log_value: f64 = (max_value as f64).ln();
+  let magnitude = (max_value as f64) / (if log_value == 0.0 { 1.0 } else { log_value });
+  let flattened: HashMap<_, f64> = breakdown
+    .into_iter()
+    .map(|(tag, count)| (tag, (count as f64).ln() * magnitude))
+    .collect();
   let chart = Chart::new()
     .radar(
       RadarCoordinate::new()
@@ -105,14 +111,14 @@ pub fn compile_breakdown_radar_chart_for_tags(tags: Vec<Tag>) -> std::io::Result
     )
     .series(Radar::new().area_style(AreaStyle::new()).data(vec![(
       vec![
-        breakdown.get(&Tag::Bitcoin).copied().unwrap_or(0),
-        breakdown.get(&Tag::Guide).copied().unwrap_or(0),
-        breakdown.get(&Tag::Hype).copied().unwrap_or(0),
-        breakdown.get(&Tag::Meme).copied().unwrap_or(0),
-        breakdown.get(&Tag::News).copied().unwrap_or(0),
-        breakdown.get(&Tag::Python).copied().unwrap_or(0),
-        breakdown.get(&Tag::Rust).copied().unwrap_or(0),
-        breakdown.get(&Tag::Tidbit).copied().unwrap_or(0),
+        flattened.get(&Tag::Bitcoin).copied().unwrap_or(0.0),
+        flattened.get(&Tag::Guide).copied().unwrap_or(0.0),
+        flattened.get(&Tag::Hype).copied().unwrap_or(0.0),
+        flattened.get(&Tag::Meme).copied().unwrap_or(0.0),
+        flattened.get(&Tag::News).copied().unwrap_or(0.0),
+        flattened.get(&Tag::Python).copied().unwrap_or(0.0),
+        flattened.get(&Tag::Rust).copied().unwrap_or(0.0),
+        flattened.get(&Tag::Tidbit).copied().unwrap_or(0.0),
       ],
       "Tag breakdown",
     )]));
