@@ -12,6 +12,8 @@ on:
 
 jobs:
   build:
+    env:
+      TZ: 'Asia/Bangkok'
     if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     steps:
