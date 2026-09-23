@@ -57,6 +57,7 @@ fn main() -> std::io::Result<()> {
     <meta property='og:type' content='website' />
     <meta property='og:url' content='http://localhost:3000' />
     <script src='https://unpkg.com/prismjs/prism.js'></script>
+    <script src='https://unpkg.com/prismjs/components/prism-bash.min.js'></script>
     <script src='https://unpkg.com/prismjs/components/prism-rust.min.js'></script>
     <script type='module'>
       import init, {{ hydrate }} from '/pkg/blog.js'
