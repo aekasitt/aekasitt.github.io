@@ -9,7 +9,7 @@
     "pnpm": ">= 12"
   },
   "name": "aekasitt-github-io",
-  "packageManager": "pnpm@>=12.4.2",
+  "packageManager": "pnpm@>=12",
   "scripts": {
     "build": "tailwindcss -i assets/tailwind.css --minify -o dist/styles.css",
     "build:dev": "tailwindcss -i assets/tailwind.css --minify -o target/site/styles.css",
