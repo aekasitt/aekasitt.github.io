@@ -13,7 +13,7 @@ use chrono::{DateTime, NaiveDate, Utc};
 use markdown_frontmatter::parse;
 
 // local modules
-use crate::models::{Entry, Frontmatter, Latest, Tag};
+use crate::models::{Entry, Frontmatter, SearchEntry, Tag};
 
 pub fn capture_latest_notes_for_dashboard() -> std::io::Result<(Vec<Entry>, Vec<Tag>)> {
   let manifest_dir = env::var("CARGO_MANIFEST_DIR").expect("CARGO_MANIFEST_DIR");
@@ -50,14 +50,20 @@ pub fn capture_latest_notes_for_dashboard() -> std::io::Result<(Vec<Entry>, Vec<
     }
   }
   entries.sort_by_key(|item| Reverse(item.created));
-  let latest = Latest {
-    entries: entries.clone(),
-  };
   let mut file = File::create(assets_dir.join("latest.ndjson")).expect("create latest.ndjson file");
   for entry in &entries {
     let mut line = serde_json::to_vec(entry).expect("serialize entry to json");
     line.push(b'\n');
     file.write_all(&line).expect("write entry to latest.ndjson");
+  }
+  let mut search_file =
+    File::create(assets_dir.join("search.ndjson")).expect("create search.ndjson file");
+  for entry in &entries {
+    let mut line = serde_json::to_vec(&SearchEntry::from(entry)).expect("serialize search entry");
+    line.push(b'\n');
+    search_file
+      .write_all(&line)
+      .expect("write entry to search.ndjson");
   }
   Ok((entries, tags))
 }

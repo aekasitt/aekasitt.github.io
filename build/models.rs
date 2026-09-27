@@ -13,6 +13,25 @@ pub struct Entry {
   pub title: String,
 }
 
+#[derive(Serialize)]
+pub struct SearchEntry {
+  pub created: NaiveDate,
+  pub slug: &str,
+  pub tags: &Option<Vec<Tag>>,
+  pub title: &str,
+}
+
+impl<'a> From<&'a Entry> for SearchEntry<'a> {
+  fn from(entry: &'a Entry) -> Self {
+    Self {
+      created: entry.created,
+      slug: &entry.slug,
+      tags: &entry.tags,
+      title: &entry.title,
+    }
+  }
+}
+
 #[derive(Deserialize)]
 pub struct Frontmatter {
   pub banner: Option<String>,
