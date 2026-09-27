@@ -4,10 +4,10 @@
 build:
   #!/usr/bin/env sh
   cargo leptos build --split
-  yarn build:dev
+  pnpm run build:dev
 
-# Check project prerequisites
-check:
+# Preflight check project prerequisites
+preflight:
   #!/usr/bin/env sh
   echo "📝 Status check on project prerequisites"
   cargo_exists=$(command -v cargo >/dev/null && echo 0 || echo 1)
@@ -18,18 +18,18 @@ check:
   [[ $grep_exists -eq 1 ]] \
     && echo "❎ cargo-leptos - 'build tool for Leptos (Rust) ' not found." \
     || echo "✅ cargo-leptos - 'build tool for Leptos (rust) ' found."
-  yarn_exists=$(command -v yarn >/dev/null && echo 0 || echo 1)
-  if [[ $yarn_exists -eq 1 ]]; then
-    echo "❎ yarn - 'package manager for NodeJS' not found."
+  pnpm_exists=$(command -v pnpm >/dev/null && echo 0 || echo 1)
+  if [[ $pnpm_exists -eq 1 ]]; then
+    echo "❎ pnpm - 'Fast, disk space efficient package manager' not found."
     echo "❎ serve - 'static file serving and directory listing' not found."
     echo "❎ @tailwindcss/cli - 'dedicated command-line interface for TailwindCSS' not found."
   else
-    echo "✅ yarn - 'package manager for NodeJS' found."
-    yarn global list | grep '^info "serve@\d\+\.\d\+\.\d\+" has binaries:$' -q
+    echo "✅ pnpm - 'Fast, disk space efficient package manager' found."
+    pnpm ls | grep '^[└├]── serve@\d\+\.\d\+\.\d\+$' -q
     [[ $? -eq 1 ]] \
       && echo "❎ serve - 'static file serving and directory listing' not found." \
       || echo "✅ serve - 'static file serving and directory listing' found."
-    yarn global list | grep '^info "@tailwindcss/cli@\d\+\.\d\+\.\d\+" has binaries:$' -q
+    pnpm ls | grep '^[└├]── @tailwindcss/cli@\d\+\.\d\+\.\d\+$' -q
     [[ $? -eq 1 ]] \
       && echo "❎ @tailwindcss/cli - 'dedicated command-line interface for TailwindCSS' not found." \
       || echo "✅ @tailwindcss/cli - 'dedicated command-line interface for TailwindCSS' found."
@@ -38,4 +38,4 @@ check:
 # Serve
 serve:
   #!/usr/bin/env sh
-  yarn serve:dev
+  pnpm run serve:dev
