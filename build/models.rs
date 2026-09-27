@@ -14,11 +14,11 @@ pub struct Entry {
 }
 
 #[derive(Serialize)]
-pub struct SearchEntry {
+pub struct SearchEntry<'a> {
   pub created: NaiveDate,
-  pub slug: &str,
-  pub tags: &Option<Vec<Tag>>,
-  pub title: &str,
+  pub slug: &'a str,
+  pub tags: &'a Option<Vec<Tag>>,
+  pub title: &'a str,
 }
 
 impl<'a> From<&'a Entry> for SearchEntry<'a> {
