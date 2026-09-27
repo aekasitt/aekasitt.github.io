@@ -65,7 +65,7 @@ fn ListItem(
 
 #[component]
 #[lazy]
-pub fn LazyNavigation(set_search_toggled: WriteSignal<bool>) -> AnyView {
+pub fn LazyNavigation(set_command_open: WriteSignal<bool>) -> AnyView {
   let id = use_random_id();
   view! {
     <div
@@ -241,8 +241,7 @@ pub fn LazyNavigation(set_search_toggled: WriteSignal<bool>) -> AnyView {
               style="display: inline-block;"
               >
               <Input
-                on:focus=move |_| set_search_toggled.set(true)
-                on:blur=move |_| set_search_toggled.set(false)
+                on:focus=move |_| set_command_open.set(true)
                 placeholder="Search"
                 />
               <Command
@@ -266,13 +265,13 @@ pub fn LazyNavigation(set_search_toggled: WriteSignal<bool>) -> AnyView {
 }
 
 #[component]
-pub fn Navigation(set_search_toggled: WriteSignal<bool>) -> impl IntoView {
+pub fn Navigation(set_command_open: WriteSignal<bool>) -> impl IntoView {
   view! {
     <Suspense fallback=move || view! { <div>"Loading navigation..."</div> }>
       {move || Suspend::new(async move {
         LazyNavigation(
             LazyNavigationProps::builder()
-              .set_search_toggled(set_search_toggled)
+              .set_command_open(set_command_open)
               .build()
             ).await
           })

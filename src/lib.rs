@@ -31,13 +31,12 @@ pub fn hydrate() {
 
 #[component]
 pub fn App() -> impl IntoView {
-  let (search_toggled, set_search_toggled) = signal(false);
-  let command_focused = RwSignal::new(false);
+  let (command_open, set_command_open) = signal(false);
   view! {
     <Router>
       <main class="min-h-screen">
-        <Navigation set_search_toggled=set_search_toggled />
-        <CommandBox command_focused=command_focused search_toggled=search_toggled />
+        <Navigation set_command_open=set_command_open />
+        <CommandBox command_open=command_open set_command_open=set_command_open />
         <FlatRoutes fallback=|| view! { <p>"Page not found."</p> }.into_view()>
           <Route path=path!("/") view=pages::Home/>
           <Route path=path!("/about") view=move || view! { <Redirect path="/"/> }/>

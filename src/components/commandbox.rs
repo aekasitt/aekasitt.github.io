@@ -146,36 +146,44 @@ mod tests {
 
 #[component]
 pub fn CommandBox(
-  command_focused: RwSignal<bool>,
-  search_toggled: ReadSignal<bool>,
+  command_open: ReadSignal<bool>,
+  set_command_open: WriteSignal<bool>,
 ) -> impl IntoView {
   view! {
-    <div class=move || {
-      if command_focused.get() || search_toggled.get() {
-        "
-          backdrop-blur-xs
-          duration-200
-          fixed
-          flex
-          inset-0
-          items-start
-          justify-center
-          p-4
-          pt-16
-          shadow-lg
-          transition-all
-          z-50
-        "
-      } else {
-        "hidden"
+    <div
+      aria-modal="true"
+      role="dialog"
+      on:click=move |_| set_command_open.set(false)
+      on:keydown=move |event| {
+        if event.key() == "Escape" {
+          set_command_open.set(false);
+        }
       }
-    }>
+      class=move || {
+        if command_open.get() {
+          "
+            backdrop-blur-xs
+            duration-200
+            fixed
+            flex
+            inset-0
+            items-start
+            justify-center
+            p-4
+            pt-16
+            shadow-lg
+            transition-all
+            z-50
+          "
+        } else {
+          "hidden"
+        }
+      }>
       <Suspense fallback=move || view! { <div>"Loading commandbox..."</div> }>
         {move || Suspend::new(async move {
           LazyCommandBox(
             LazyCommandBoxProps::builder()
-              .command_focused(command_focused)
-              .search_toggled(search_toggled)
+              .command_open(command_open)
               .build()
             ).await
           })
@@ -187,23 +195,20 @@ pub fn CommandBox(
 
 #[component]
 #[lazy]
-pub fn LazyCommandBox(
-  command_focused: RwSignal<bool>,
-  search_toggled: ReadSignal<bool>,
-) -> AnyView {
+pub fn LazyCommandBox(command_open: ReadSignal<bool>) -> AnyView {
   let command_input_ref = NodeRef::<Input>::new();
   let query = RwSignal::new(String::new());
   let search_entries = LocalResource::new(|| async move { fetch_search_entries().await });
   Effect::new(move |_| {
-    if search_toggled.get() {
+    if command_open.get() {
       if let Some(element) = command_input_ref.get() {
         let _ = element.focus();
-        command_focused.set(true);
       }
     }
   });
   view! {
     <div
+      on:click=move |event| event.stop_propagation()
       class="
         bg-popover
         border
@@ -243,8 +248,6 @@ pub fn LazyCommandBox(
             "
             node_ref=command_input_ref
             on_search_change=Callback::new(move |value| query.set(value))
-            on:focus=move |_| command_focused.set(true)
-            on:blur=move |_| command_focused.set(false)
           />
         </InputGroup>
         <CommandList
