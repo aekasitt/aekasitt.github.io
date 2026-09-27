@@ -12,14 +12,14 @@ use tiny_skia::{Pixmap, Transform};
 use usvg::{Options, Tree};
 
 pub fn render_opengraph_image(count: usize, last_updated: &str) -> std::io::Result<()> {
-  let mut font_db = usvg::fontdb::Database::new();
-  let mut font_file = File::open("./assets/sov-prisna.ttf")?;
-  let mut font_data = Vec::new();
-  font_file.read_to_end(&mut font_data)?;
-  font_db.load_font_data(font_data);
-  font_db.load_system_fonts();
-  let data = format!(
-    r#"<?xml version='1.0' encoding='utf-8'?>
+    let mut font_db = usvg::fontdb::Database::new();
+    let mut font_file = File::open("./assets/sov-prisna.ttf")?;
+    let mut font_data = Vec::new();
+    font_file.read_to_end(&mut font_data)?;
+    font_db.load_font_data(font_data);
+    font_db.load_system_fonts();
+    let data = format!(
+        r#"<?xml version='1.0' encoding='utf-8'?>
 <svg
   height='630px'
   version='1.1'
@@ -195,19 +195,19 @@ pub fn render_opengraph_image(count: usize, last_updated: &str) -> std::io::Resu
     </tspan>
   </text>
 </svg>"#,
-  );
-  let mut opt = Options::default();
-  opt.fontdb = Arc::new(font_db);
-  opt.font_family = String::from("SOV_Prisna");
-  let tree = Tree::from_str(&data, &opt)
-    .map_err(|e| std::io::Error::new(std::io::ErrorKind::InvalidData, e.to_string()))?;
-  let size = tree.size();
-  let mut pixmap =
-    Pixmap::new(size.width() as u32, size.height() as u32).ok_or(std::io::Error::new(
-      std::io::ErrorKind::InvalidData,
-      "Failed to create pixel buffer",
-    ))?;
-  render(&tree, Transform::default(), &mut pixmap.as_mut());
-  pixmap.save_png(Path::new("./assets/opengraph.png"))?;
-  Ok(())
+    );
+    let mut opt = Options::default();
+    opt.fontdb = Arc::new(font_db);
+    opt.font_family = String::from("SOV_Prisna");
+    let tree = Tree::from_str(&data, &opt)
+        .map_err(|e| std::io::Error::new(std::io::ErrorKind::InvalidData, e.to_string()))?;
+    let size = tree.size();
+    let mut pixmap =
+        Pixmap::new(size.width() as u32, size.height() as u32).ok_or(std::io::Error::new(
+            std::io::ErrorKind::InvalidData,
+            "Failed to create pixel buffer",
+        ))?;
+    render(&tree, Transform::default(), &mut pixmap.as_mut());
+    pixmap.save_png(Path::new("./assets/opengraph.png"))?;
+    Ok(())
 }

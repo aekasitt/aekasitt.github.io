@@ -18,30 +18,30 @@ use ograph::render_opengraph_image;
 
 /// build  hook
 fn main() -> std::io::Result<()> {
-  let (entries, tags) = capture_latest_notes_for_dashboard()?;
-  let count = entries.len();
-  let last_updated = entries
-    .iter()
-    .next()
-    .ok_or(std::io::Error::new(
-      std::io::ErrorKind::NotFound,
-      "Empty entries",
-    ))?
-    .created
-    .to_string();
-  compile_breakdown_radar_chart_for_tags(tags)?;
-  compile_contribution_calendar_chart(entries)?;
-  render_opengraph_image(count, &last_updated)?;
-  #[cfg(debug_assertions)]
-  {
-    match create_dir("target/site") {
-      Ok(_) => {}
-      Err(_) => {}
-    }
-    match File::create("./target/site/index.html") {
-      Ok(mut template) => write!(
-        template,
-        r#"<!DOCTYPE html>
+    let (entries, tags) = capture_latest_notes_for_dashboard()?;
+    let count = entries.len();
+    let last_updated = entries
+        .iter()
+        .next()
+        .ok_or(std::io::Error::new(
+            std::io::ErrorKind::NotFound,
+            "Empty entries",
+        ))?
+        .created
+        .to_string();
+    compile_breakdown_radar_chart_for_tags(tags)?;
+    compile_contribution_calendar_chart(entries)?;
+    render_opengraph_image(count, &last_updated)?;
+    #[cfg(debug_assertions)]
+    {
+        match create_dir("target/site") {
+            Ok(_) => {}
+            Err(_) => {}
+        }
+        match File::create("./target/site/index.html") {
+            Ok(mut template) => write!(
+                template,
+                r#"<!DOCTYPE html>
 <html lang='en'>
   <head>
     <link rel='icon' href='/favicon.ico' />
@@ -69,9 +69,9 @@ fn main() -> std::io::Result<()> {
   <body></body>
 </html>
 "#
-      )?,
-      Err(_) => println!("Unable to write file"),
-    }
-  };
-  Ok(())
+            )?,
+            Err(_) => println!("Unable to write file"),
+        }
+    };
+    Ok(())
 }
