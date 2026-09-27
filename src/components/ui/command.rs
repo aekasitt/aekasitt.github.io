@@ -437,29 +437,35 @@ pub fn Command(
       (function() {
         const setupCommand = () => {
           const FIRST_INDEX = 0;
+          const shouldFilter = __SHOULD_FILTER__;
           const command_list = document.querySelector('[data-name="CommandList"]');
           const command_input = document.querySelector('[data-name="CommandInput"]');
-          const command_items = command_list?.querySelectorAll('[data-name="CommandItemLink"]');
-          const command_groups = command_list?.querySelectorAll('[data-name="CommandGroup"]');
 
-          if (!command_items || command_items.length === 0) {
+          if (!command_list || !command_input) {
             // Elements not ready yet, try again shortly
             setTimeout(setupCommand, 50);
             return;
           }
 
           let index = FIRST_INDEX;
+          const getCommandItems = () => {
+            return Array.from(command_list.querySelectorAll('[data-name="CommandItemLink"]'));
+          };
 
           // Get visible items only
           const getVisibleItems = () => {
-            return Array.from(command_items).filter(item => item.style.display !== 'none');
+            return getCommandItems().filter(item => {
+              if (item.style.display === 'none') return false;
+              const group = item.closest('[data-name="CommandGroup"]');
+              return !group || group.style.display !== 'none';
+            });
           };
 
           const select = (i) => {
             const visibleItems = getVisibleItems();
             if (visibleItems.length === 0) return;
 
-            command_items.forEach(item => item.setAttribute('aria-selected', 'false'));
+            getCommandItems().forEach(item => item.setAttribute('aria-selected', 'false'));
             if (visibleItems[i]) {
                 visibleItems[i].setAttribute('aria-selected', 'true');
                 visibleItems[i].scrollIntoView({ block: 'nearest', behavior: 'smooth' });
@@ -468,9 +474,15 @@ pub fn Command(
 
           // Filter items based on search query
           const filterItems = (query) => {
+            if (!shouldFilter) {
+              index = FIRST_INDEX;
+              select(FIRST_INDEX);
+              return;
+            }
+
             const searchQuery = query.toLowerCase().trim();
 
-            command_items.forEach(item => {
+            getCommandItems().forEach(item => {
               const text = item.textContent.toLowerCase();
               if (searchQuery === '' || text.includes(searchQuery)) {
                   item.style.display = '';
@@ -480,13 +492,11 @@ pub fn Command(
             });
 
             // Hide empty groups
-            if (command_groups) {
-              command_groups.forEach(group => {
-                  const groupItems = group.querySelectorAll('[data-name="CommandItemLink"]');
-                  const hasVisibleItems = Array.from(groupItems).some(item => item.style.display !== 'none');
-                  group.style.display = hasVisibleItems ? '' : 'none';
-              });
-            }
+            command_list.querySelectorAll('[data-name="CommandGroup"]').forEach(group => {
+              const groupItems = group.querySelectorAll('[data-name="CommandItemLink"]');
+              const hasVisibleItems = Array.from(groupItems).some(item => item.style.display !== 'none');
+              group.style.display = hasVisibleItems ? '' : 'none';
+            });
 
             // Reset selection to first visible item
             index = FIRST_INDEX;
@@ -529,7 +539,7 @@ pub fn Command(
         }
       })();
     "#
-    .to_string()
+    .replace("__SHOULD_FILTER__", if should_filter { "true" } else { "false" })
   };
 
   view! {

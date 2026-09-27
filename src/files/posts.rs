@@ -14,6 +14,7 @@ use crate::models::Post;
 
 // constants
 const LATEST_ENTRY_JSON: &str = "/assets/latest.ndjson";
+const SEARCH_ENTRY_JSON: &str = "/assets/search.ndjson";
 const MAX_ALLOWED_BYTES: usize = 500 * 1024;
 
 #[derive(Clone, DeJson)]
@@ -27,6 +28,34 @@ pub struct Entry {
 pub struct Latest {
   pub entries: Vec<Entry>,
   pub served_by: String,
+}
+
+#[derive(Clone, DeJson)]
+pub struct SearchEntry {
+  pub created: String,
+  pub slug: String,
+  pub tags: Option<Vec<String>>,
+  pub title: String,
+}
+
+pub async fn fetch_search_entries() -> Result<Vec<SearchEntry>, String> {
+  let response = Request::get(SEARCH_ENTRY_JSON)
+    .send()
+    .await
+    .map_err(|e| e.to_string())?;
+  if !response.ok() {
+    return Err(format!(
+      "request to retrieve search entries failed with HTTP {}",
+      response.status()
+    ));
+  }
+  let body = response.text().await.map_err(|e| e.to_string())?;
+  Ok(
+    body
+      .lines()
+      .filter_map(|line| DeJson::deserialize_json(line).ok())
+      .collect(),
+  )
 }
 
 pub async fn fetch_latest_entries() -> Result<Latest, String> {
