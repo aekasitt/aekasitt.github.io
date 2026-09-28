@@ -146,6 +146,7 @@ pub fn LazyNavigation(set_command_open: WriteSignal<bool>) -> AnyView {
                                                 text-sm
                                             ">
                                                 Rustacean, Patriarch, Bitcoin and
+                                                &nbsp;
                                                 <strong>
                                                     krutt
                                                 </strong>
