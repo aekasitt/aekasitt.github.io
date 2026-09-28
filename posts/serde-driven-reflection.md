@@ -26,7 +26,7 @@ title = 'Serde-driven Reflection'
 
 ```rust
 // ปกติ: JSON -> Struct
-let fan: Fan = serde_json::from_str("{\"name\"😕"Fan1\",\"speed\":1000}")?;
+let fan: Fan = serde_json::from_str("{\"name\":"Fan1\",\"speed\":1000}")?;
 // Ohad: WMI Object -> Struct
 // ภายในเรียก ObjectDeserializer
 let fan: Fan = query::<Fan>()?;
