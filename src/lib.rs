@@ -40,6 +40,7 @@ pub fn App() -> impl IntoView {
                 <FlatRoutes fallback=|| view! { <p>"Page not found."</p> }.into_view()>
                     <Route path=path!("/") view=pages::Home/>
                     <Route path=path!("/about") view=move || view! { <Redirect path="/"/> }/>
+                    <Route path=path!("/learn") view=pages::Learn/>
                     <Route path=path!("/post/:slug/") view=pages::Post/>
                 </FlatRoutes>
             </main>

@@ -199,6 +199,12 @@ pub fn LazyNavigation(set_command_open: WriteSignal<bool>) -> AnyView {
                                         Bitcoin concepts condensed into printable A4 zines
                                     </ListItem>
                                     <ListItem
+                                        href="/learn"
+                                        title="Learn"
+                                        >
+                                        Member-only courses on Rust and Bitcoin
+                                    </ListItem>
+                                    <ListItem
                                         href="https://pypi.org/project/aesir"
                                         target="_blank"
                                         title="Aesir"
