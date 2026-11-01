@@ -8,17 +8,20 @@ use std::io::Write;
 
 // local modules
 mod charts;
+mod headup;
 mod latest;
 mod models;
 mod ograph;
 
 use charts::{compile_breakdown_radar_chart_for_tags, compile_contribution_calendar_chart};
+use headup::compose_headup_brief;
 use latest::capture_latest_notes_for_dashboard;
 use ograph::render_opengraph_image;
 
 /// build  hook
 fn main() -> std::io::Result<()> {
     let (entries, tags) = capture_latest_notes_for_dashboard()?;
+    compose_headup_recap(&entries)?;
     let count = entries.len();
     let last_updated = entries
         .iter()

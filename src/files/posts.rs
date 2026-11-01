@@ -13,6 +13,7 @@ use web_sys::{ReadableStreamDefaultReader, RequestCache, Response, TextDecoder};
 use crate::models::Post;
 
 // constants
+const HEADUP_RECAP_JSON: &str = "/assets/headup.ndjson";
 const LATEST_ENTRY_JSON: &str = "/assets/latest.ndjson";
 const SEARCH_ENTRY_JSON: &str = "/assets/search.ndjson";
 const MAX_ALLOWED_BYTES: usize = 500 * 1024;
@@ -31,11 +32,38 @@ pub struct Latest {
 }
 
 #[derive(Clone, DeJson)]
+pub struct Headup {
+    pub generated_at: String,
+    pub total_posts: usize,
+    pub first_published: Option<String>,
+    pub latest_published: Option<String>,
+    pub posts_this_month: usize,
+    pub posts_this_year: usize,
+}
+
+#[derive(Clone, DeJson)]
 pub struct SearchEntry {
     pub created: String,
     pub slug: String,
     pub tags: Option<Vec<String>>,
     pub title: String,
+}
+
+pub async fn fetch_entry_count() -> Result<usize, String> {
+    let response = Request::get(HEADUP_RECAP_JSON)
+        .cache(RequestCache::NoCache)
+        .send()
+        .await
+        .map_err(|e| e.to_string())?;
+    if !response.ok() {
+        return Err(format!(
+            "request to retrieve entry count failed with HTTP {}",
+            response.status()
+        ));
+    }
+    let body = response.text().await.map_err(|e| e.to_string())?;
+    let headup: Headup = DeJson::deserialize_json(&body).map_err(|e| e.to_string())?;
+    Ok(headup.total_posts)
 }
 
 pub async fn fetch_search_entries() -> Result<Vec<SearchEntry>, String> {

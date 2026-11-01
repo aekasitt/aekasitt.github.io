@@ -1,7 +1,7 @@
 /* ~~/build/models.rs */
 
 // third-party crates
-use chrono::NaiveDate;
+use chrono::{DateTime, NaiveDate, Utc};
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Serialize)]
@@ -11,6 +11,16 @@ pub struct Entry {
     pub slug: String,
     pub tags: Option<Vec<Tag>>,
     pub title: String,
+}
+
+#[derive(Serialize)]
+pub struct Headup {
+    pub generated_at: DateTime<Utc>,
+    pub total_posts: usize,
+    pub first_published: Option<NaiveDate>,
+    pub latest_published: Option<NaiveDate>,
+    pub posts_this_month: usize,
+    pub posts_this_year: usize,
 }
 
 #[derive(Serialize)]
