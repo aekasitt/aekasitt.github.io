@@ -14,7 +14,7 @@ mod models;
 mod ograph;
 
 use charts::{compile_breakdown_radar_chart_for_tags, compile_contribution_calendar_chart};
-use headup::compose_headup_brief;
+use headup::compose_headup_recap;
 use latest::capture_latest_notes_for_dashboard;
 use ograph::render_opengraph_image;
 
